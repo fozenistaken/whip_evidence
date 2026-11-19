@@ -673,6 +673,12 @@ exports('GetBodyReport', function(bodyId)
     return WhipEvidence.Bodies.report(tostring(bodyId or ''))
 end)
 
+-- Fingerprint and blood type of a character, for an MDT's prints on file: { fingerprint, blood } or nil
+exports('GetTraits', function(charId)
+    if not apiAllowed() then return nil end
+    return WhipEvidence.Data.traits(tonumber(charId))
+end)
+
 -- The MDT tells this resource how to check a case ID (used by the lab's "Upload to a case"):
 -- exports.whip_evidence:SetCaseCheck(function(caseId, source) return true/false end)
 exports('SetCaseCheck', function(fn)

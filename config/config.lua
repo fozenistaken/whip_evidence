@@ -6,7 +6,7 @@ Config = {
 
     -- Jobs that collect evidence, run GSR tests and use the labs (on duty).
     -- Only listened to: the jobs come from your job scripts or /whip -> Jobs, nothing is created.
-    PoliceJobs = { 'police', 'bcso', 'sahp' },
+    PoliceJobs = { 'lspd', 'bcso' },   -- pure-whip-police departments
 
     -- Rank permissions: the lowest rank level (1-100, the level of the rank in /whip -> Jobs) that may do it.
     -- UsePermissions = false: every on-duty officer may do everything.
@@ -14,20 +14,20 @@ Config = {
     Permissions = {
         evidence_scan        = 1,    -- scan (flashlight, camera)
         evidence_photo       = 1,    -- crime scene photos
-        evidence_collect     = 20,   -- collect evidence
-        evidence_gsr         = 20,   -- GSR tests
-        evidence_vehicle     = 20,   -- collect vehicle traces
-        evidence_laser       = 20,   -- laser pointer
-        evidence_sign        = 20,   -- sign for evidence
-        evidence_clear       = 20,   -- clear away single traces
-        evidence_upload      = 20,   -- upload to a case (MDT)
-        evidence_locker      = 20,   -- open case lockers
-        evidence_body        = 20,   -- examine bodies
-        evidence_dust        = 40,   -- dust weapons for prints
-        evidence_release     = 40,   -- release crime scenes
-        evidence_lab         = 40,   -- run lab analyses
-        evidence_locker_take = 40,   -- take items out of case lockers (without: look only)
-        evidence_case_close  = 60,   -- close cases
+        evidence_collect     = 10,   -- collect evidence
+        evidence_gsr         = 10,   -- GSR tests
+        evidence_vehicle     = 10,   -- collect vehicle traces
+        evidence_laser       = 10,   -- laser pointer
+        evidence_sign        = 10,   -- sign for evidence
+        evidence_clear       = 10,   -- clear away single traces
+        evidence_upload      = 10,   -- upload to a case (MDT)
+        evidence_locker      = 10,   -- open case lockers
+        evidence_body        = 10,   -- examine bodies
+        evidence_dust        = 20,   -- dust weapons for prints
+        evidence_release     = 20,   -- release crime scenes
+        evidence_lab         = 20,   -- run lab analyses
+        evidence_locker_take = 20,   -- take items out of case lockers (without: look only)
+        evidence_case_close  = 40,   -- close cases
     },
 
     -- Evidence
@@ -249,7 +249,7 @@ Config = {
     CaseSlots = 50,        -- slots per case locker
 
     -- Resources allowed to use the case exports (your MDT). Empty = any resource.
-    ApiResources = {},
+    ApiResources = { 'pure-whip-police' },
 
     -- Prop per evidence type
     Props = {
