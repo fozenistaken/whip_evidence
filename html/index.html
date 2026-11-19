@@ -171,6 +171,8 @@
         #fit kbd { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 3px; border-radius: 4px; text-align: center;
                    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); font: 600 12px 'Barlow', sans-serif; color: #fff; }
     </style>
+    <link rel="stylesheet" href="pure-theme.css">
+    <link rel="stylesheet" href="pure-nui.css">
 </head>
 <body>
     <textarea id="clip"></textarea>
@@ -304,7 +306,7 @@
                 <span class="d">${esc(e.d || 0)} m</span></div>`);
             (Array.isArray(d.cars) ? d.cars : []).forEach((c, i) => {
                 const what = [c.m, c.c].filter(Boolean).join(', ');
-                const plate = c.seen === false ? `<span style="color:#facc15">${esc(c.p)}</span>` : esc(c.p);
+                const plate = c.seen === false ? `<span style="color:#f2c94c">${esc(c.p)}</span>` : esc(c.p);
                 rows.push(`<div class="row car">
                 <span class="no">${esc(c.v || 'V' + (i + 1))}</span>
                 <div class="what"><div class="t">${plate}${what ? ` · ${esc(what)}` : ''}</div><div class="i">${esc(c.t)}</div></div></div>`);
@@ -511,7 +513,7 @@
 
         // ---- body findings sheet (client/bodies.lua)
         const REP = { open: false, text: '', copied: 'Copied' };
-        const REP_COLORS = { red: '#f87171', yellow: '#facc15', green: '#4ade80', blue: '#60a5fa' };
+        const REP_COLORS = { red: '#ff6b6b', yellow: '#f2c94c', green: '#57d38c', blue: '#8fb8ff' };
         function repClose(tell) {
             REP.open = false;
             $('report').classList.remove('open');
@@ -538,10 +540,10 @@
         };
         for (const k of Object.keys(REP_SPOTS)) if (k.endsWith('_l')) REP_SPOTS[k.slice(0, -1) + 'r'] = [200 - REP_SPOTS[k][0], REP_SPOTS[k][1]];
         const REP_ICON = {
-            inside:  '<circle cx="0" cy="0" r="6.5" fill="#ef4444" stroke="#fff" stroke-width="2"/>',
-            through: '<circle cx="0" cy="0" r="5.5" fill="none" stroke="#ef4444" stroke-width="2.6"/>',
+            inside:  '<circle cx="0" cy="0" r="6.5" fill="#ff6b6b" stroke="#fff" stroke-width="2"/>',
+            through: '<circle cx="0" cy="0" r="5.5" fill="none" stroke="#ff6b6b" stroke-width="2.6"/>',
             stab:    '<path d="M-6 6L6 -6" stroke="#fb923c" stroke-width="3.4" stroke-linecap="round"/>',
-            other:   '<rect x="-5" y="-5" width="10" height="10" rx="2.5" fill="#a78bfa" stroke="#111" stroke-width="1"/>',
+            other:   '<rect x="-5" y="-5" width="10" height="10" rx="2.5" fill="#c3a6ff" stroke="#14110a" stroke-width="1"/>',
         };
         // the room on this figure: arms and legs top to bottom (y), head / neck / body left to right (x)
         const REP_BOUNDS = { arm: [96, 206], leg: [214, 386], head: [82, 118], neck: [96, 104], torso: [74, 126] };
@@ -581,7 +583,7 @@
                     x = a[0] + (rnd() * 2 - 1) * a[2]; y = a[1] + (rnd() * 2 - 1) * a[3];
                 }
                 const kind = m.w === 'gunshot' ? (m.i ? 'inside' : 'through') : (m.w === 'stab' ? 'stab' : 'other');
-                const fatal = m.f ? `<circle cx="0" cy="0" r="11" fill="none" stroke="#fde047" stroke-width="1.6" stroke-dasharray="3 2"/>` : '';
+                const fatal = m.f ? `<circle cx="0" cy="0" r="11" fill="none" stroke="#f2c94c" stroke-width="1.6" stroke-dasharray="3 2"/>` : '';
                 const tip = [S['w_' + m.w] || m.w, S[m.s] || S[m.p] || m.p,
                     m.w === 'gunshot' ? (m.i ? S.inside : S.through) : null, m.f ? S.fatal : null].filter(Boolean).join(' · ');
                 return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><title>${esc(tip)}</title>${fatal}${REP_ICON[kind]}</g>`;

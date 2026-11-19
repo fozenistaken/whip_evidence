@@ -1,0 +1,16 @@
+body{font-family:var(--pe-ui);color:var(--pe-text);-webkit-font-smoothing:antialiased}
+.card,.sheet{background:rgba(14,16,19,.92);border:1px solid var(--pe-line);border-radius:10px}
+.no{background:var(--pe-trace);color:var(--pe-tag-ink);font-family:var(--pe-mono);font-weight:600;border-radius:6px}
+.car .no{background:var(--pe-car)}
+.body .no{background:var(--pe-body)}
+.title{font-weight:700;letter-spacing:-.01em}
+.dist{font-family:var(--pe-mono);font-weight:500;color:var(--pe-mute)}
+.chip{background:rgba(255,255,255,.08);border-radius:6px}
+.label{color:var(--pe-accent);letter-spacing:.14em}
+.street{font-weight:800;letter-spacing:-.02em}
+.sub,.info,.more,.hint{color:var(--pe-mute)}
+.row{border-top-color:var(--pe-line)}
+.badge,.mark .cam{background:var(--pe-bg)}
+.tag .body{border-color:var(--pe-tag-ink)}
+.tag .stripe{border-top-color:var(--pe-tag-ink)}
+.digit,.mark .num{font-family:var(--pe-mono);font-weight:600;color:var(--pe-tag-ink);letter-spacing:-.04em}

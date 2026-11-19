@@ -80,11 +80,11 @@
 
     function strike(text) {
         G.strikes++;
-        flash(text, '#f87171');
+        flash(text, '#ff6b6b');
         drawStrikes();
         if (G.strikes >= G.maxStrikes) finish(false, 'failed');
     }
-    function flash(text, color) { G.flash = { text, color: color || '#fde047', until: performance.now() + 900 }; }
+    function flash(text, color) { G.flash = { text, color: color || '#f2c94c', until: performance.now() + 900 }; }
     function drawStrikes() {
         $('mgStrikes').innerHTML = G.maxStrikes > 0
             ? Array.from({ length: G.maxStrikes }, (_, i) => `<i class="${i < G.strikes ? 'on' : ''}"></i>`).join('') : '';
@@ -93,7 +93,7 @@
     function finish(passed, why, quiet) {
         if (!G || G.done) return;
         G.done = { passed, why, at: performance.now() };
-        if (!quiet) flash(passed ? T('mg_done', 'Done') : (why === 'timeout' ? T('mg_timeout', 'Out of time') : T('mg_failed', 'Failed')), passed ? '#4ade80' : '#f87171');
+        if (!quiet) flash(passed ? T('mg_done', 'Done') : (why === 'timeout' ? T('mg_timeout', 'Out of time') : T('mg_failed', 'Failed')), passed ? '#57d38c' : '#ff6b6b');
         const token = G.token;
         setTimeout(() => {
             fetch(`https://${RES}/gameDone`, { method: 'POST', body: JSON.stringify({ token, passed, why }) }).catch(() => {});
@@ -235,7 +235,7 @@
                 g.progress = sum / g.need / 0.82;
                 if (g.progress >= 1) {
                     g.phase = 'tape'; g.tape = 0; g.tapeDir = 1; g.zone = 26 / L;
-                    flash(T('mg_tape_now', 'Now press the tape on'), '#fde047');
+                    flash(T('mg_tape_now', 'Now press the tape on'), '#f2c94c');
                     $('mgHint').textContent = T('mg_tape_hint', 'Click when the tape is right over the print.');
                 }
             } else {
@@ -301,7 +301,7 @@
                 g.c.x = clamp(g.c.x, 40, 400); g.c.y = clamp(g.c.y, 40, H - 40);
                 if (input.pressed) {
                     const r = this.rim(g);
-                    if (dist(input.x, input.y, r.x, r.y) < g.grabR) { g.phase = 'carry'; flash(T('mg_got_it', 'Got it: into the bag'), '#4ade80'); }
+                    if (dist(input.x, input.y, r.x, r.y) < g.grabR) { g.phase = 'carry'; flash(T('mg_got_it', 'Got it: into the bag'), '#57d38c'); }
                     else if (this.nearBody(g, input.x, input.y)) {
                         g.c.vx = rand(-2, 2) * L; g.c.vy = rand(-2, 2) * L; g.c.va = rand(-0.08, 0.08);
                         setTimeout(() => { if (G === g) { g.c.vx *= 0.15; g.c.vy *= 0.15; g.c.va *= 0.2; } }, 400);
@@ -452,7 +452,7 @@
             for (const s of g.shards) { s.glint += 0.03 * dt; if (s.got) s.got = Math.min(1, s.got + 0.08 * dt); }
             if (input.pressed) {
                 const s = g.shards.find((o) => !o.got && dist(o.x, o.y, input.x, input.y) < g.hitR);
-                if (s) { s.got = 0.01; flash(T('mg_fragment', 'Fragment bagged'), '#4ade80'); } else strike(T('mg_nothing', 'Nothing there'));
+                if (s) { s.got = 0.01; flash(T('mg_fragment', 'Fragment bagged'), '#57d38c'); } else strike(T('mg_nothing', 'Nothing there'));
             }
             const got = g.shards.filter((s) => s.got).length;
             g.progress = got / g.shards.length;
@@ -496,7 +496,7 @@
                 s.hold += dt;
                 if (s.hold >= g.holdNeed) {
                     g.i++;
-                    if (g.i === 3) flash(T('mg_left_hand', 'Now the left hand'), '#4ade80');
+                    if (g.i === 3) flash(T('mg_left_hand', 'Now the left hand'), '#57d38c');
                     if (g.i >= g.spots.length) { g.progress = 1; finish(true); return; }
                 }
             } else s.hold = Math.max(0, s.hold - dt * 2);
@@ -512,7 +512,7 @@
                 const pulse = 0.5 + 0.5 * Math.sin(now / 160);
                 ctx.strokeStyle = `rgba(253,224,71,${0.5 + pulse * 0.5})`; ctx.lineWidth = 3;
                 ctx.beginPath(); ctx.arc(s.x, s.y, g.r, 0, Math.PI * 2); ctx.stroke();
-                ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4;
+                ctx.strokeStyle = '#57d38c'; ctx.lineWidth = 4;
                 ctx.beginPath(); ctx.arc(s.x, s.y, g.r + 6, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (s.hold / g.holdNeed)); ctx.stroke();
             });
         },
@@ -582,7 +582,7 @@
                     g.progress = 0.8 * Math.min(1, share / g.needShare);
                     if (share >= g.needShare) {
                         g.phase = 'set'; g.set = 0; g.zone = [0.72, 0.72 + 0.16 / L];
-                        flash(T('mg_cast_wait', 'Let it set…'), '#fde047');
+                        flash(T('mg_cast_wait', 'Let it set…'), '#f2c94c');
                         $('mgHint').textContent = T('mg_cast_lift', 'Click to lift the cast when the bar is in the green.');
                     }
                 } else {
@@ -672,7 +672,7 @@
                 const f = g.fibres.find((o) => !o.got && this.near(o, input.x, input.y));
                 if (!f) strike(T('mg_nothing', 'Nothing there'));
                 else if (!f.good) { f.got = 0.01; strike(T('mg_wrong_fibre', 'Wrong fibre: lint or a hair!')); }
-                else { f.got = 0.01; flash(T('mg_fibre', 'Fibre secured'), '#4ade80'); }
+                else { f.got = 0.01; flash(T('mg_fibre', 'Fibre secured'), '#57d38c'); }
             }
             const got = g.fibres.filter((f) => f.good && f.got).length;
             g.progress = got / g.need;

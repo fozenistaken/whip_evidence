@@ -34,7 +34,7 @@
         .nav { padding: 6px 6px; }
         .nav .item { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 5px; font-size: 13px; color: rgba(255,255,255,.85); }
         .nav .item.on { background: rgba(255,255,255,.08); position: relative; }
-        .nav .item.on::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 2px; background: #60cdff; }
+        .nav .item.on::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 2px; background: #4fd1e8; }
         .nav .ico { width: 14px; height: 14px; border-radius: 3px; }
         .main { padding: 16px 22px; background: rgba(255,255,255,.04); border-top-left-radius: 7px; overflow: hidden; }
         h1 { font-size: 24px; font-weight: 600; margin: 0 0 3px; }
@@ -48,7 +48,7 @@
                background: rgba(96,205,255,.09); border: 1px solid rgba(96,205,255,.2); border-radius: 7px; padding: 10px 12px; }
 
         .prog { height: 7px; border-radius: 4px; background: rgba(255,255,255,.14); margin: 14px 0 7px; overflow: hidden; }
-        .prog b { display: block; height: 100%; width: 0; border-radius: 4px; background: #60cdff; }
+        .prog b { display: block; height: 100%; width: 0; border-radius: 4px; background: #4fd1e8; }
         .row { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.88); }
         .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
         .chip { font-size: 12.5px; padding: 5px 10px; border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.07); }
@@ -65,10 +65,10 @@
         .res { display: flex; gap: 10px; align-items: center; padding: 6px 10px; font-size: 13px; background: rgba(255,255,255,.04);
                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .res:nth-child(odd) { background: rgba(255,255,255,.075); }
-        .res .no { min-width: 28px; height: 20px; line-height: 20px; text-align: center; border-radius: 4px; background: #fde047; color: #111; font-weight: 700; font-size: 12px; flex: none; }
+        .res .no { min-width: 28px; height: 20px; line-height: 20px; text-align: center; border-radius: 4px; background: #f2c94c; color: #111; font-weight: 700; font-size: 12px; flex: none; }
         .res .tx { overflow: hidden; text-overflow: ellipsis; }
-        .res.match .no { background: #f87171; }
-        .res.reference .no { background: #4ade80; }
+        .res.match .no { background: #ff6b6b; }
+        .res.reference .no { background: #57d38c; }
         .more { font-size: 12px; color: rgba(255,255,255,.65); margin-top: 6px; }
 
         /* taskbar */
@@ -76,7 +76,7 @@
                 background: rgba(26, 28, 38, .92); border-top: 1px solid rgba(255,255,255,.08); }
         .tb { width: 32px; height: 32px; border-radius: 5px; display: flex; align-items: center; justify-content: center; position: relative; }
         .tb.on { background: rgba(255,255,255,.08); }
-        .tb.on::after { content: ''; position: absolute; bottom: 2px; width: 12px; height: 3px; border-radius: 2px; background: #60cdff; }
+        .tb.on::after { content: ''; position: absolute; bottom: 2px; width: 12px; height: 3px; border-radius: 2px; background: #4fd1e8; }
         .tb img, .tb .ico { width: 19px; height: 19px; object-fit: contain; border-radius: 4px; }
         .search { width: 150px; height: 26px; border-radius: 13px; background: rgba(255,255,255,.09); display: flex; align-items: center; gap: 6px;
                   padding: 0 10px; font-size: 11.5px; color: rgba(255,255,255,.65); margin: 0 3px; }
@@ -88,12 +88,12 @@
         .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
         .bags { display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
         .bag { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 4px 8px; border-radius: 5px; background: rgba(255,255,255,.04); }
-        .bag .no { min-width: 26px; height: 18px; line-height: 18px; text-align: center; border-radius: 4px; background: #fde047; color: #111; font-weight: 700; font-size: 11px; flex: none; }
+        .bag .no { min-width: 26px; height: 18px; line-height: 18px; text-align: center; border-radius: 4px; background: #f2c94c; color: #111; font-weight: 700; font-size: 11px; flex: none; }
         .bag .k { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .bag .s { color: rgba(255,255,255,.6); font-size: 11.5px; white-space: nowrap; }
         .bag.done .s { color: #6ccb5f; }
         .bag.now { background: rgba(96,205,255,.12); border: 1px solid rgba(96,205,255,.3); }
-        .bag.now .s { color: #60cdff; }
+        .bag.now .s { color: #4fd1e8; }
         .viz { border-radius: 7px; background: rgba(0,0,0,.28); border: 1px solid rgba(96,205,255,.15); padding: 8px; position: relative; overflow: hidden;
                display: flex; flex-direction: column; max-height: var(--vizh, 240px); }
         .viz > svg { width: 100%; flex: 1 1 auto; min-height: 0; display: block; }
@@ -102,7 +102,7 @@
         /* the pictures move in steps once a second with the analysis, never smoothly: a page drawn small
            onto a monitor in the world shimmers on every moving pixel */
         .trace { fill: none; stroke-width: 1.3; }
-        .minu { fill: none; stroke: #f87171; stroke-width: 1.2; }
+        .minu { fill: none; stroke: #ff6b6b; stroke-width: 1.2; }
         .ridge { fill: none; stroke: rgba(230,230,240,.55); stroke-width: .9; }
 
         /* taskbar: the app's progress and a badge when results are in; who is signed in */
@@ -112,7 +112,7 @@
                      display: none; align-items: center; justify-content: center; padding: 0 3px; }
         .tray .user { display: flex; align-items: center; gap: 5px; font-size: 11px; color: rgba(255,255,255,.8); }
         .tray .user:empty { display: none; }
-        .tray .user i { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, #60cdff, #2563eb); font-style: normal; font-size: 8.5px; font-weight: 700;
+        .tray .user i { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, #4fd1e8, #2a8fa3); font-style: normal; font-size: 8.5px; font-weight: 700;
                         display: flex; align-items: center; justify-content: center; flex: none; }
         .tray .user span { max-width: 95px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
@@ -125,11 +125,11 @@
         .lock .card { position: absolute; left: 50%; transform: translateX(-50%); top: calc(15% + 140px); width: 320px; padding: 10px 14px; border-radius: 8px;
                       background: rgba(20,24,40,.55); border: 1px solid rgba(255,255,255,.1); font-size: 13px; }
         .lock .card .p { height: 5px; border-radius: 3px; background: rgba(255,255,255,.15); margin-top: 8px; overflow: hidden; }
-        .lock .card .p b { display: block; height: 100%; background: #60cdff; }
+        .lock .card .p b { display: block; height: 100%; background: #4fd1e8; }
         .lock .hint { position: absolute; bottom: 18px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,.7); }
         .lock .hint img { width: 16px; height: 16px; object-fit: contain; }
         .login { z-index: 6; background: radial-gradient(120% 90% at 50% 120%, #0c3b8f 0%, #0a1f54 40%, #071230 75%); text-align: center; }
-        .login .av { width: 86px; height: 86px; border-radius: 50%; margin: 0 auto; margin-top: 16%; background: linear-gradient(135deg, #60cdff, #2563eb);
+        .login .av { width: 86px; height: 86px; border-radius: 50%; margin: 0 auto; margin-top: 16%; background: linear-gradient(135deg, #4fd1e8, #2a8fa3);
                      display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; }
         .login .lw { margin-top: 14px; font-size: 15px; color: rgba(255,255,255,.8); }
         .login .ln { margin-top: 2px; font-size: 22px; font-weight: 600; }
@@ -149,10 +149,10 @@
         .upload .ic svg { width: 44px; height: 44px; display: block; margin: 0 auto 4px; }
         .upload .dots { display: flex; gap: 6px; }
         .upload .dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.18); }
-        .upload .dots i.on { background: #60cdff; }
+        .upload .dots i.on { background: #4fd1e8; }
         .upload h2 { margin: 0; font-size: 16px; font-weight: 600; }
         .upload .p { height: 6px; border-radius: 3px; background: rgba(255,255,255,.12); margin: 12px 0 6px; overflow: hidden; }
-        .upload .p b { display: block; height: 100%; background: #60cdff; width: 0; }
+        .upload .p b { display: block; height: 100%; background: #4fd1e8; width: 0; }
         .upload .s { font-size: 12px; color: rgba(255,255,255,.65); }
         .upload .okc { width: 46px; height: 46px; border-radius: 50%; background: #6ccb5f; display: flex; align-items: center; justify-content: center; margin: 2px auto 10px; }
         .upload .left { margin-top: 8px; font-size: 12px; color: #fbbf24; }
@@ -167,6 +167,8 @@
         .toast .t { font-size: 14px; font-weight: 600; margin-top: 6px; }
         .toast .d { font-size: 12px; color: rgba(255,255,255,.78); margin-top: 2px; }
     </style>
+    <link rel="stylesheet" href="pure-theme.css">
+    <link rel="stylesheet" href="pure-lab.css">
 </head>
 <body>
     <div class="wall"><div class="bloom b1"></div><div class="bloom b2"></div></div>
@@ -180,9 +182,9 @@
         </div>
         <div class="body">
             <div class="nav">
-                <div class="item on"><span class="ico" style="background:#60cdff"></span><span data-t="lab_nav_analysis">Analysis</span></div>
+                <div class="item on"><span class="ico" style="background:#4fd1e8"></span><span data-t="lab_nav_analysis">Analysis</span></div>
                 <div class="item"><span class="ico" style="background:#fbbf24"></span><span data-t="lab_nav_storage">Storage</span></div>
-                <div class="item"><span class="ico" style="background:#4ade80"></span><span data-t="lab_nav_ballistics">Ballistics</span></div>
+                <div class="item"><span class="ico" style="background:#57d38c"></span><span data-t="lab_nav_ballistics">Ballistics</span></div>
                 <div class="item"><span class="ico" style="background:#a78bfa"></span><span data-t="lab_nav_reports">Reports</span></div>
             </div>
             <div class="main" id="main"></div>
@@ -209,7 +211,7 @@
         <div class="tb"><img class="logo" alt=""></div>
         <div class="search"><svg viewBox="0 0 16 16" width="12"><circle cx="7" cy="7" r="5" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M11 11l4 4" stroke="#fff" stroke-width="1.5"/></svg><span data-t="lab_search">Search</span></div>
         <div class="tb"><span class="ico" style="background:linear-gradient(135deg,#ffd166,#f4a300)"></span></div>
-        <div class="tb"><span class="ico" style="background:linear-gradient(135deg,#7dd3fc,#2563eb)"></span></div>
+        <div class="tb"><span class="ico" style="background:linear-gradient(135deg,#7dd3fc,#2a8fa3)"></span></div>
         <div class="tb on"><img class="logo" alt=""><i class="tbprog" id="tbProg"><b id="tbProgB"></b></i><b class="badge" id="tbBadge"></b></div>
         <div class="tb"><span class="ico" style="background:linear-gradient(135deg,#86efac,#16a34a)"></span></div>
         <div class="tray">
@@ -234,7 +236,7 @@
                        shoeprint: 'Shoe prints', tyre_track: 'Tyre tracks', fiber: 'Fibres', cleaned: 'Cleaned spots', gsr: 'GSR', reference: 'Reference', other: 'Other' };
         const kindName = (k) => T('lab_kind_' + k, KIND[k] || k);
         // fallback mark if the logo file is missing
-        const MARK = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#2563eb"/><circle cx="10.5" cy="10.5" r="5" fill="none" stroke="#fff" stroke-width="2"/><path d="M14.5 14.5l5 5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>');
+        const MARK = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#2a8fa3"/><circle cx="10.5" cy="10.5" r="5" fill="none" stroke="#fff" stroke-width="2"/><path d="M14.5 14.5l5 5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>');
         let timer = 0, toastTimer = 0, lastDone = 0;
         let MAX_ROWS = 7, last = null, H = 450;
 
@@ -252,7 +254,7 @@
             const all = (sel) => document.querySelectorAll('#viz ' + sel);
             if (kind === 'blood') {
                 // DNA: an electropherogram, four dyes; the curves get longer with the analysis
-                const colors = ['#60cdff', '#4ade80', '#fbbf24', '#f87171'];
+                const colors = ['#4fd1e8', '#57d38c', '#fbbf24', '#ff6b6b'];
                 let lines = '';
                 colors.forEach((c, k) => {
                     let pts = [];
@@ -292,7 +294,7 @@
                 return { html: `<svg viewBox="0 0 240 130"><rect x="6" y="5" width="110" height="120" rx="4" fill="#1d2433"/><rect x="124" y="5" width="110" height="120" rx="4" fill="#1d2433"/>
                     <svg x="9" y="5" width="104" height="120">${lines}</svg>
                     <svg x="127" y="5" width="104" height="120"><g class="slide"><g transform="translate(-104 0)">${lines}</g>${lines}</g></svg>
-                    <line x1="120" y1="0" x2="120" y2="130" stroke="#60cdff" stroke-width="1"/></svg>${cap(T('lab_viz_ballistic', 'Comparison microscope'), T('lab_viz_striations', 'striations'))}`,
+                    <line x1="120" y1="0" x2="120" y2="130" stroke="#4fd1e8" stroke-width="1"/></svg>${cap(T('lab_viz_ballistic', 'Comparison microscope'), T('lab_viz_striations', 'striations'))}`,
                     step: (q) => all('.slide').forEach((el) => el.setAttribute('transform', `translate(${-Math.round(24 * (1 - Math.min(1, q * 1.4)))} 0)`)) };
             }
             if (kind === 'gsr') {
@@ -301,7 +303,7 @@
                 let bars = '';
                 els.forEach((e, i) => {
                     const h = i < 3 ? 70 + r() * 40 : 10 + r() * 25, x = 14 + i * 32;
-                    bars += `<rect class="el" data-h="${h.toFixed(1)}" x="${x}" y="120" width="16" height="0" rx="2" fill="${i < 3 ? '#f87171' : '#60cdff'}"/>
+                    bars += `<rect class="el" data-h="${h.toFixed(1)}" x="${x}" y="120" width="16" height="0" rx="2" fill="${i < 3 ? '#ff6b6b' : '#4fd1e8'}"/>
                              <text x="${x + 8}" y="129" text-anchor="middle" font-size="8" fill="#cbd5e1">${e}</text>`;
                 });
                 return { html: `<svg viewBox="0 0 240 130">${grid()}${bars}</svg>${cap(T('lab_viz_gsr', 'SEM/EDX analysis'), 'Pb · Ba · Sb')}`,
@@ -324,7 +326,7 @@
             if (kind === 'cleaned') {
                 // a chemical test: the strip turns colour, chlorine shows
                 let pads = '';
-                for (let i = 0; i < 6; i++) pads += `<rect class="pad" x="${30 + i * 32}" y="40" width="22" height="50" rx="3" fill="#e5e7eb" data-c="${['#fde047', '#a3e635', '#fde047', '#e5e7eb', '#bef264', '#e5e7eb'][i]}"/>`;
+                for (let i = 0; i < 6; i++) pads += `<rect class="pad" x="${30 + i * 32}" y="40" width="22" height="50" rx="3" fill="#e5e7eb" data-c="${['#f2c94c', '#a3e635', '#f2c94c', '#e5e7eb', '#bef264', '#e5e7eb'][i]}"/>`;
                 return { html: `<svg viewBox="0 0 240 130"><rect x="20" y="30" width="200" height="70" rx="6" fill="#1d2433"/>${pads}
                         <text x="120" y="118" text-anchor="middle" font-size="9" fill="#cbd5e1">NaClO · Cl⁻ · pH</text></svg>
                         ${cap(T('lab_viz_chem', 'Chemical test'), T('lab_viz_measure', 'measuring'))}`,
@@ -344,7 +346,7 @@
                 for (let i = 0; i <= 10; i++) ticks += `<line x1="70" y1="${10 + i * 11}" x2="${i % 5 ? 75 : 79}" y2="${10 + i * 11}" stroke="#94a3b8" stroke-width=".8"/>`;
                 return { html: `<svg viewBox="0 0 240 130">${grid()}
                         <path d="M120 10c18 0 26 14 26 34 0 14-6 22-8 34-2 10 4 18 4 28 0 10-9 16-22 16s-22-6-22-16c0-10 6-18 4-28-2-12-8-20-8-34 0-20 8-34 26-34z"
-                              fill="rgba(96,205,255,.08)" stroke="#60cdff" stroke-width="1.2"/>
+                              fill="rgba(96,205,255,.08)" stroke="#4fd1e8" stroke-width="1.2"/>
                         ${rows}${ticks}<line x1="70" y1="10" x2="70" y2="120" stroke="#94a3b8" stroke-width=".8"/></svg>
                         ${cap(T('lab_viz_shoe', 'Sole pattern'), T('lab_viz_measure', 'measuring'))}`,
                     step: (q) => all('.row').forEach((el, i) => { el.style.display = i < Math.ceil(q * n) ? '' : 'none'; }) };
@@ -357,7 +359,7 @@
                     marks += `<path class="mk" d="M${x} 40l9 -10l9 10v8l-9 -10l-9 10z" fill="#e5e7eb"/><path class="mk" d="M${x} 92l9 -10l9 10v8l-9 -10l-9 10z" fill="#e5e7eb"/>`;
                 }
                 return { html: `<svg viewBox="0 0 240 130"><rect x="8" y="22" width="224" height="88" rx="6" fill="#1d2433"/>${marks}
-                        <rect x="8" y="62" width="224" height="6" fill="#111827"/><rect class="line" x="8" y="18" width="2" height="96" fill="#60cdff"/></svg>
+                        <rect x="8" y="62" width="224" height="6" fill="#111827"/><rect class="line" x="8" y="18" width="2" height="96" fill="#4fd1e8"/></svg>
                         ${cap(T('lab_viz_tyre', 'Tread pattern'), T('lab_viz_measure', 'measuring'))}`,
                     step: (q) => {
                         all('.line').forEach((el) => el.setAttribute('x', Math.round(8 + 222 * q)));
@@ -370,7 +372,7 @@
                 let y = 10, bands = '';
                 cols.forEach((c) => { const h = 12 + r() * 16; bands += `<rect x="40" y="${y.toFixed(1)}" width="160" height="${h.toFixed(1)}" fill="${c}"/>`; y += h + 1; });
                 const bottom = y;
-                return { html: `<svg viewBox="0 0 240 130">${bands}<rect class="line" x="34" y="8" width="172" height="2" fill="#60cdff" opacity=".85"/></svg>${cap(T('lab_viz_paint', 'Paint layers'), F('lab_viz_layers', '%d layers', cols.length))}`,
+                return { html: `<svg viewBox="0 0 240 130">${bands}<rect class="line" x="34" y="8" width="172" height="2" fill="#4fd1e8" opacity=".85"/></svg>${cap(T('lab_viz_paint', 'Paint layers'), F('lab_viz_layers', '%d layers', cols.length))}`,
                     step: (q) => all('.line').forEach((el) => el.setAttribute('y', Math.round(8 + (bottom - 10) * q))) };
             }
             return { html: `<div class="scan" style="margin:0"><i></i></div>${cap(T('lab_viz_generic', 'Analysis'), '')}`, step: scanStep };
@@ -586,7 +588,7 @@
                         <div class="card"><div class="n">${esc(d.analysed || 0)}</div><div class="l">${esc(T('lab_card_analysed', 'Analysed, in storage'))}</div></div>
                         <div class="card"><div class="n">${esc(d.newGuns || 0)}</div><div class="l">${esc(T('lab_card_guns', 'Weapons to test-fire'))}</div></div>
                     </div>
-                    <div class="tip"><svg viewBox="0 0 16 16" width="15" style="flex:none"><circle cx="8" cy="8" r="7" fill="none" stroke="#60cdff"/><path d="M8 7v4M8 4.6v.1" stroke="#60cdff" stroke-width="1.6"/></svg>
+                    <div class="tip"><svg viewBox="0 0 16 16" width="15" style="flex:none"><circle cx="8" cy="8" r="7" fill="none" stroke="#4fd1e8"/><path d="M8 7v4M8 4.6v.1" stroke="#4fd1e8" stroke-width="1.6"/></svg>
                         ${esc(T('lab_tip', 'Put evidence into the storage, then start the analysis at the device.'))}</div>`;
             }
             setMode(d);

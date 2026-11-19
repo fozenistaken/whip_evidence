@@ -79,12 +79,14 @@
         .mark .cam { position: absolute; right: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; background: #0f172a;
                      border: 2px solid #fff; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
     </style>
+    <link rel="stylesheet" href="pure-theme.css">
+    <link rel="stylesheet" href="pure-scan.css">
 </head>
 <body>
     <div id="atlas"></div>
     <script>
-        const COLORS = { green: '#4ade80', yellow: '#fbbf24', red: '#f87171', blue: '#60a5fa' };
-        const STRIPE = ['#2563eb', '#16a34a', '#dc2626'];   // tag: too fresh (blue), ready (green), gone soon (red)
+        const COLORS = { green: '#57d38c', yellow: '#f2c94c', red: '#ff6b6b', blue: '#8fb8ff' };
+        const STRIPE = ['#8fb8ff', '#57d38c', '#ff6b6b'];   // tag: too fresh (blue), ready (green), gone soon (red)
         const atlas = document.getElementById('atlas');
 
         function box(cls, x, y, html) {
@@ -108,28 +110,28 @@
         });
         for (let d = 0; d <= 9; d++) box('digit', 512 + d * 32, 784, String(d));
         // bodies: a purple tag and the letter L ("L1", "L2", ...)
-        box('tag', 512 + 3 * 64, 704, `<div class="body" style="background:#c4b5fd"><div class="stripe" style="background:#7c3aed"></div></div>`);
+        box('tag', 512 + 3 * 64, 704, `<div class="body" style="background:#c3a6ff"><div class="stripe" style="background:#7a5cc7"></div></div>`);
         box('digit', 512 + 10 * 32, 784, 'L');
         // vehicles: a blue tag and the letter V ("V1", "V2", ...)
-        box('tag', 512 + 4 * 64, 704, `<div class="body" style="background:#93c5fd"><div class="stripe" style="background:#2563eb"></div></div>`);
+        box('tag', 512 + 4 * 64, 704, `<div class="body" style="background:#8fb8ff"><div class="stripe" style="background:#3f6fc9"></div></div>`);
         box('digit', 512 + 11 * 32, 784, 'V');
 
         // camera glyph: badge on photographed markers, icon in legend rows
-        const CAM = (c) => `<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="${c}" d="M9 4h6l1.6 2.2H20a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.2a2 2 0 0 1 2-2h3.4z"/><circle cx="12" cy="13" r="4.2" fill="none" stroke="${c === '#fff' ? '#0f172a' : '#111'}" stroke-width="2.2"/></svg>`;
+        const CAM = (c) => `<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="${c}" d="M9 4h6l1.6 2.2H20a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.2a2 2 0 0 1 2-2h3.4z"/><circle cx="12" cy="13" r="4.2" fill="none" stroke="${c === '#fff' ? '#0e1013' : '#14110a'}" stroke-width="2.2"/></svg>`;
         box('icon', 512 + 6 * 64, 640, `<div class="badge"><div style="width:26px;height:26px">${CAM('#fff')}</div></div>`);
         // arrow (pointing up): the way a bleeding person walked
-        box('icon', 512 + 7 * 64, 640, `<svg viewBox="0 0 64 64" width="64" height="64"><path d="M32 4 L54 34 H40 V60 H24 V34 H10 Z" fill="#f87171" stroke="#111" stroke-width="3" stroke-linejoin="round"/></svg>`);
+        box('icon', 512 + 7 * 64, 640, `<svg viewBox="0 0 64 64" width="64" height="64"><path d="M32 4 L54 34 H40 V60 H24 V34 H10 Z" fill="#ff6b6b" stroke="#14110a" stroke-width="3" stroke-linejoin="round"/></svg>`);
 
         // whole markers: { i, k = 0/1/2 (phase) or 'L' / 'V', t = text, p = photographed }
         const marks = [];
         for (let i = 0; i < 64; i++) marks.push(box('tag mark', (i % 8) * 64, 384 + Math.floor(i / 8) * 80));
-        const MARK_BG = { L: ['#c4b5fd', '#7c3aed'], V: ['#93c5fd', '#2563eb'] };
+        const MARK_BG = { L: ['#c3a6ff', '#7a5cc7'], V: ['#8fb8ff', '#3f6fc9'] };
         function paintMarks(list) {
             for (const m of list) {
                 const el = marks[m.i];
                 if (!el) continue;
                 if (!m.t) { el.innerHTML = ''; continue; }
-                const c = MARK_BG[m.k] || ['#fde047', STRIPE[m.k] || STRIPE[1]];
+                const c = MARK_BG[m.k] || ['#f2c94c', STRIPE[m.k] || STRIPE[1]];
                 const t = String(m.t);
                 const size = t.length <= 1 ? 44 : (t.length === 2 ? 34 : 25);
                 el.innerHTML = `<div class="body" style="background:${c[0]}"><div class="stripe" style="background:${c[1]}"></div></div>
@@ -150,7 +152,7 @@
                 const style = c.color ? ` style="color:${COLORS[c.color] || '#fff'}"` : '';
                 return `<span class="chip"${style}>${esc(c.text)}</span>`;
             }).join('');
-            const tagBg = d.body ? '#a78bfa' : (d.car ? '#60a5fa' : '');
+            const tagBg = d.body ? '#c3a6ff' : (d.car ? '#8fb8ff' : '');
             const no = d.no ? `<span class="no"${tagBg ? ` style="background:${tagBg}"` : ''}>${esc(d.no)}</span>`
                             : `<span class="dot" style="background:${COLORS[d.color] || COLORS.blue}"></span>`;
             el.innerHTML = `<div class="card">
@@ -164,7 +166,7 @@
             const rows = (d.rows || []).map((r) => `<div class="row${r.car ? ' car' : ''}${r.body ? ' body' : ''}">
                 <span class="no">${esc(r.no)}</span><span class="title">${esc(r.title)}</span>
                 <span class="info"${r.color ? ` style="color:${COLORS[r.color]}"` : ''}>${esc(r.info || '')}</span>
-                ${r.photo ? `<span class="cam">${CAM('#4ade80')}</span>` : ''}
+                ${r.photo ? `<span class="cam">${CAM('#57d38c')}</span>` : ''}
                 <span class="dist">${esc(r.dist || '')}</span></div>`).join('');
             el.innerHTML = `<div class="sheet">
                 <div class="label">${esc(d.label || 'CRIME SCENE')}</div>

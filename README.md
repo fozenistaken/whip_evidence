@@ -1,5 +1,7 @@
 # whip_evidence
 
+> **pure-whip-police fork.** Same code as LeSiiN's release, themed to the police job's look: `html/pure-theme.css` (fonts and colours), `html/pure-nui.css` (photo viewer, case list, post-mortem, minigames), `html/pure-scan.css` (scan cards and markers), `html/pure-lab.css` (lab monitor), fonts in `html/fonts/` (OFL). Upstream files only gained the `<link>` lines and the palette in their colour constants, so `git merge upstream/<tag>` stays small. Config: `PoliceJobs = { 'lspd', 'bcso' }`, `ApiResources = { 'pure-whip-police' }`, rank levels fitted to the police ranks, and a `GetTraits` export.
+
 Forensics for WHIP: evidence at crime scenes, real crime scene photos, minigames, labs with a monitor,
 ballistics, gunshot residue, vehicle and weapon traces, an evidence case and case lockers for your MDT.
 
