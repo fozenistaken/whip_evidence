@@ -11,7 +11,8 @@ How this fork differs from LeSiiN's release and how to keep it mergeable. The fo
 2. Bundle branch `pure` to `F:\Claude-Backups\whip_evidence\snapshots\` (the fork's commits are not on GitHub), then
    `git rebase upstream/main` with the commit identity set.
 3. Conflicts come from colour literals next to upstream's changed lines: keep upstream's lines, re-apply the colour.
-   4.2.3 to 4.2.5 conflicted only in `html/index.html` (the new hit-spot tooltip beside the fatal-ring colour).
+   4.2.3 to 4.2.5 conflicted only in `html/index.html` (the new hit-spot tooltip beside the fatal-ring colour);
+   4.2.5 to 4.2.6 rebased with no conflicts.
 4. Re-render the themed screens and run pure-whip-police's harness.
 
 ## Theming without breaking merges
