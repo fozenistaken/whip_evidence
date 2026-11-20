@@ -588,15 +588,11 @@
                     m.w === 'gunshot' ? (m.i ? S.inside : S.through) : null, m.f ? S.fatal : null].filter(Boolean).join(' · ');
                 return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><title>${esc(tip)}</title>${fatal}${REP_ICON[kind]}</g>`;
             }).join('');
-            const skin = 'fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.35)" stroke-width="1.6"';
             $('repFig').innerHTML = `<svg viewBox="0 0 200 410">
-                <circle cx="100" cy="42" r="26" ${skin}/>
-                <rect x="90" y="66" width="20" height="14" rx="4" ${skin}/>
-                <path d="M68 82 Q100 74 132 82 L136 206 Q100 214 64 206 Z" ${skin}/>
-                <path d="M66 86 L48 98 L42 210 L58 212 L66 120 Z" ${skin}/>
-                <path d="M134 86 L152 98 L158 210 L142 212 L134 120 Z" ${skin}/>
-                <path d="M68 206 L98 210 L96 392 L76 392 Z" ${skin}/>
-                <path d="M132 206 L102 210 L104 392 L124 392 Z" ${skin}/>
+                <defs><filter id="repSkin" x="-5%" y="-5%" width="110%" height="110%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="grow"/>
+                    <feComposite in="grow" in2="SourceAlpha" operator="out" result="edge"/><feFlood flood-color="#fff" flood-opacity=".35"/><feComposite in2="edge" operator="in" result="line"/>
+                    <feFlood flood-color="#fff" flood-opacity=".10"/><feComposite in2="SourceAlpha" operator="in" result="fill"/><feMerge><feMergeNode in="fill"/><feMergeNode in="line"/></feMerge></filter></defs>
+                <image href="img/pure-body.webp" width="200" height="410" filter="url(#repSkin)"/>
                 <text x="18" y="30" fill="rgba(255,255,255,.35)" font-size="13" font-weight="800">${esc(S.side_r || 'R')}</text>
                 <text x="182" y="30" fill="rgba(255,255,255,.35)" font-size="13" font-weight="800" text-anchor="end">${esc(S.side_l || 'L')}</text>
                 ${dots}</svg><div class="cap">${esc(f.front || 'FRONT')}</div>`;

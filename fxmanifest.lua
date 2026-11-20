@@ -84,4 +84,5 @@ files {
     'html/img/tracks/*.png',   -- shoe prints and tyre tracks on the ground
     'html/*.css',              -- pure-whip-police theme
     'html/fonts/*.woff2',
+    'html/img/*.webp',
 }
