@@ -6,14 +6,14 @@ lua54 'yes'
 name 'whip_evidence'
 author 'LeSiiN'
 description 'Forensics for WHIP: evidence, GSR, vehicle traces, weapon prints, labs'
-version '4.2.6'
+version '4.2.6.1'
 
 dependencies {
     'whip_core',
     'whip_evidence_assets',   -- the props live there, so this resource can restart safely
 }
 whip_requires '1.0'
-whip_updates 'LeSiiN/whip_evidence'   -- whip_core compares `version` with the latest GitHub release (tag v4.0.0 etc.)
+whip_updates 'fozenistaken/whip_evidence'   -- whip_core compares `version` with this fork's latest GitHub release (upstream version plus a fourth number)
 
 shared_scripts {
     '@whip_core/lib/satellite.lua',
