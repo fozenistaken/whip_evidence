@@ -106,3 +106,13 @@ html body #mg .prog b{background:var(--pe-ok)}
 html body #mg .time b{background:var(--pe-warn)}
 html body #mg .time.low b{background:var(--pe-danger)}
 html body #mg .keys{font-family:var(--pe-mono);font-size:.75rem;color:var(--pe-faint);margin-top:.5rem}
+
+/* minigame frame in the police kit (pure-games.js) */
+html body #mg.pw-mg .top{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.125rem .75rem}
+html body #mg.pw-mg .kicker{grid-column:1;font-size:.6875rem;letter-spacing:.14em;color:var(--faint)}
+html body #mg.pw-mg .title{grid-column:1;font-size:1.625rem;line-height:1.1}
+html body #mg.pw-mg .strikes{grid-column:2;grid-row:1 / span 2}
+html body #mg.pw-mg .pw-mg-frame{padding:.375rem}
+html body #mg.pw-mg .pw-mg-frame canvas{width:100%;height:auto;aspect-ratio:600/380}
+html body #mg.pw-mg #mgKeys{display:none}
+html body #mg.pw-mg .pw-mg-keys{margin-top:.75rem}

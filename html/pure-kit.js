@@ -33,7 +33,12 @@
     const m = /^(.*\S)\s+(\S+)$/.exec(part.trim());
     return m ? kbd(m[1], m[2]) : `<span>${e(part)}</span>`;
   }).join('');
+  // "G: filter · H: photo" (key: label)
+  const colonKeys = (text) => String(text || '').split(/\s+·\s+/).filter(Boolean).map((part) => {
+    const m = /^(.+?):\s*(.+)$/.exec(part.trim());
+    return m ? kbd(m[1], m[2]) : `<span>${e(part)}</span>`;
+  }).join('');
   const txt = (id) => { const el = document.getElementById(id); return el ? el.textContent : ''; };
 
-  window.PW = Object.freeze({ B, e, I: B.icons, layer, follow, watch, kbd, closeHint, keyHints, txt });
+  window.PW = Object.freeze({ B, e, I: B.icons, layer, follow, watch, kbd, closeHint, keyHints, colonKeys, txt });
 })();
