@@ -57,4 +57,15 @@
   root.addEventListener('click', (ev) => {
     if (ev.target.closest('[data-pw="close"]')) document.getElementById('close').click();
   });
+
+  const hints = () => shot.querySelectorAll('.zoomhint:not(.pwp-hint)').forEach((h) => { h.classList.add('pwp-hint'); h.innerHTML = PW.colonKeys(h.textContent); });
+  new MutationObserver(hints).observe(shot, { childList: true });
+  hints();
+
+  const bar = document.getElementById('zoomBar');
+  const zoomBar = Object.assign(document.createElement('div'), { className: 'pwp pwp-card pwp-hint pw-zoom-bar' });
+  bar.after(zoomBar);
+  const drawBar = () => { zoomBar.innerHTML = PW.colonKeys(bar.textContent); };
+  PW.watch(bar, drawBar);
+  drawBar();
 })();

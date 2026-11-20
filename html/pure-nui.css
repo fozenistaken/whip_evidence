@@ -116,3 +116,11 @@ html body #mg.pw-mg .pw-mg-frame{padding:.375rem}
 html body #mg.pw-mg .pw-mg-frame canvas{width:100%;height:auto;aspect-ratio:600/380}
 html body #mg.pw-mg #mgKeys{display:none}
 html body #mg.pw-mg .pw-mg-keys{margin-top:.75rem}
+
+/* lab screen fit tool in the police kit (pure-fit.js) */
+#fit.pw-fit{padding:.875rem 1.125rem;border:0}
+#fit.pw-fit h3{margin:0 0 .625rem;font-size:1.125rem;font-weight:800;letter-spacing:-.02em}
+#fit.pw-fit kbd.pwp-kbd{min-width:0;margin-right:.25rem;border:0}
+#fit.pw-fit.pad .padkeys{display:none}
+#fit .pw-fit-pad{display:none;max-width:30rem}
+#fit.pad .pw-fit-pad{display:flex}

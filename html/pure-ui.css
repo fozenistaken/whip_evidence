@@ -72,3 +72,9 @@ body.pw-on #zoom{z-index:60}
 #pwPhoto .pw-tag.body{background:#c3a6ff}
 #pwPhoto .pw-step .t{font-weight:500;font-size:.8125rem;color:var(--mute)}
 #pwPhoto .pw-step:first-of-type .t{color:var(--text)}
+
+/* photo zoom */
+body.pw-on #zoomBar{display:none}
+#zoom .pw-zoom-bar{position:fixed;width:max-content;left:50%;bottom:1.375rem;transform:translateX(-50%);margin:0;padding:.5rem .875rem;font-size:.8125rem;white-space:nowrap}
+#zoom .pw-zoom-bar>span:first-child{font-family:var(--mono);font-weight:600;color:var(--text)}
+#pwPhoto .shot .zoomhint.pwp-hint{color:var(--text);margin:0}
