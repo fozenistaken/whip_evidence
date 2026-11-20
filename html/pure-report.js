@@ -1,21 +1,11 @@
-// pure-whip-police fork: the post-mortem sheet built from the police UI kit (pure-whip-police/html/shared/bracket.js).
-// Upstream's #report keeps the state, keys, controller buttons and copy; this draws the sheet from the same message
-// and follows #report open and closed. Without the kit (police not running) upstream's sheet shows as before.
+// pure-whip-police fork: the post-mortem sheet built from the police UI kit (see pure-kit.js). Upstream's #report keeps
+// the state, keys, controller buttons and copy; this draws the sheet from the same message and follows #report.
 (() => {
-  const B = window.PWPBracket;
+  const PW = window.PW;
   const up = document.getElementById('report');
-  if (!B || !up) return;
-  const I = B.icons;
-  const e = B.esc;
-  const style = document.createElement('style');
-  style.textContent = B.css;
-  document.head.appendChild(style);
-  document.body.classList.add('pw-on');
-
-  const root = document.createElement('div');
-  root.id = 'pwReport';
-  root.className = 'pwp';
-  document.body.appendChild(root);
+  if (!PW || !up) return;
+  const { e, I } = PW;
+  const root = PW.layer('pwReport');
 
   const place = (marks) => {
     let seed = 7;
@@ -56,11 +46,6 @@
       + (hits.some((h) => h.m.f) ? item(FATAL, S.fatal || 'fatal') : '');
   };
 
-  const keyHint = (label) => {
-    const parts = String(label || '').split(' · ');
-    return parts.length === 2 ? `<span><span class="pwp-kbd">${e(parts[1])}</span>${e(parts[0])}</span>` : `<span>${e(label)}</span>`;
-  };
-
   const TONE = { red: 'danger', yellow: 'warn', green: 'ok', blue: 'route' };
 
   const render = (d) => {
@@ -91,7 +76,7 @@
           ${details.length ? `<div class="pwp-card">${details.map((r) => `<div class="pwp-row"><span class="t pw-k">${e(r.k)}</span><span class="pw-v ${TONE[r.c] || ''}">${e(r.v)}</span></div>`).join('')}</div>` : ''}
         </div>
       </div>
-      <div class="pwp-panel-foot"><div class="pwp-hint">${keyHint(d.close)}</div>
+      <div class="pwp-panel-foot"><div class="pwp-hint">${PW.closeHint(d.close)}</div>
         ${secured ? `<span class="pw-secured"><span class="pwp-lbl">${e(secured.k)}</span>${e(secured.v)}</span>` : ''}
         <button class="pwp-cta${d.pad ? ' has-kbd' : ''} pwp-press" data-pw="copy">${e(d.copy || 'Copy as text')}${d.pad ? '<span class="pwp-kbd">A</span>' : ''}</button></div>
     </section>`;
@@ -101,8 +86,7 @@
     const d = ev.data || {};
     if (d.action === 'bodyReport' && d.open) render(d);
   });
-  new MutationObserver(() => root.classList.toggle('open', up.classList.contains('open')))
-    .observe(up, { attributes: true, attributeFilter: ['class'] });
+  PW.follow(up, root);
   const upCopy = document.getElementById('repCopy');
   new MutationObserver(() => {
     const b = root.querySelector('[data-pw="copy"]');
