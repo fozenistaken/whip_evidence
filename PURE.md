@@ -26,7 +26,21 @@ How this fork differs from LeSiiN's release and how to keep it mergeable. The fo
 - Colours set from JS (scan `COLORS`, `STRIPE`, `MARK_BG`, tag backgrounds; index `REP_COLORS`; minigame `flash()`
   colours; lab script) are swapped in the file itself; that diff stays limited to colour literals.
 - The minigame canvas maps the mouse through `getBoundingClientRect`, so resizing it with CSS is safe.
-- Manifest `files` adds `'html/*.css'`, `'html/fonts/*.woff2'` and `'html/img/*.webp'`.
+- Manifest `files` adds `'html/*.css'`, `'html/fonts/*.woff2'`, `'html/img/*.webp'` and `'html/pure-*.js'`.
+
+## Screens drawn from the police UI kit
+
+- `index.html`, `lab.html` and `scan.html` end with three added script tags: the kit
+  (`https://cfx-nui-pure-whip-police/html/shared/bracket.js`), `pure-kit.js` (sets `window.PW`, adds `body.pw-on`) and
+  the screen's `pure-*.js`. Without pure-whip-police running, `window.PW` stays unset and upstream's screens show.
+- `pure-report.js`, `pure-cases.js`, `pure-photo.js` and `pure-lab.js` draw kit versions from the same messages or from
+  what upstream renders, and move upstream's live elements in (`#shot`, `#casesSearch`, `#casesMore`, `#viz`, `.scan`)
+  so upstream keeps its state, timers, keys and controller. Buttons click upstream's own buttons.
+- `pure-scan.js` only adds kit classes to what upstream paints into the atlas; no atlas box moves.
+- The kit's CSS is injected after the page's stylesheets, so it wins at equal specificity: overlay rules use two
+  classes (`.pw-main .pw-bag`, `.pw-scan .card`).
+- The kit sizes every `svg` inside `.pwp` to 1.125rem. Keep upstream drawings outside `.pwp` or give them their size
+  back (`.pw-viz .viz svg svg`, `.pw-scan .cam svg`).
 
 ## Item pictures
 
