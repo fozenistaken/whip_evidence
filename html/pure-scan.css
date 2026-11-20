@@ -11,6 +11,24 @@ body{font-family:var(--pe-ui);color:var(--pe-text);-webkit-font-smoothing:antial
 .sub,.info,.more,.hint{color:var(--pe-mute)}
 .row{border-top-color:var(--pe-line)}
 .badge,.mark .cam{background:var(--pe-bg)}
-.tag .body{border-color:var(--pe-tag-ink)}
+.tag .body{background:var(--pe-trace);border-color:var(--pe-tag-ink)}
 .tag .stripe{border-top-color:var(--pe-tag-ink)}
 .digit,.mark .num{font-family:var(--pe-mono);font-weight:600;color:var(--pe-tag-ink);letter-spacing:-.04em}
+
+/* police kit (pure-scan.js); sizes in atlas px, the atlas is a texture */
+.pw-scan .card{border:0;padding:12px 14px}
+.pw-scan .pwp-bracket::before,.pw-scan .pwp-bracket::after{width:16px;height:16px}
+.pw-scan .pwp-bracket::before{border-width:3px 0 0 3px}
+.pw-scan .pwp-bracket::after{border-width:0 3px 3px 0}
+.pw-scan .chip.pwp-flag{font-size:13px;line-height:1;padding:5px 8px;letter-spacing:.06em}
+.pw-scan .sheet{border:0;padding:16px 18px 14px}
+.pw-scan .label.pwp-lbl{font-size:15px;margin:0}
+.pw-scan .row.pwp-row{padding:6px 0;gap:9px}
+.pw-scan .info.ok{color:var(--ok)}
+.pw-scan .info.warn{color:var(--warn)}
+.pw-scan .info.danger{color:var(--danger)}
+.pw-scan .info.route{color:var(--route)}
+.pw-scan .cam svg{width:100%;height:100%}
+.pw-scan .hint.pwp-hint{font-size:14px;gap:14px;margin-top:10px}
+.pw-scan .pwp-hint span{gap:7px}
+.pw-scan .pwp-kbd{font-size:13px;padding:2px 7px}
