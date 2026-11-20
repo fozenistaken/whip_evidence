@@ -1,15 +1,15 @@
 # whip_evidence
 
-> **[pure-whip-police](https://github.com/fozenistaken/pure-whip-police) fork by [PureFX](https://purefx.dev).** Same code as LeSiiN's release, themed to the police job's look: `html/pure-theme.css` (fonts and colours), `html/pure-nui.css` (photo viewer, case list, post-mortem, minigames), `html/pure-scan.css` (scan cards and markers), `html/pure-lab.css` (lab monitor), fonts in `html/fonts/` (OFL). Upstream files only gained the `<link>` lines and the palette in their colour constants, so `git merge upstream/<tag>` stays small. Config: `PoliceJobs = { 'lspd', 'bcso' }`, `ApiResources = { 'pure-whip-police' }`, rank levels fitted to the police ranks, and a `GetTraits` export. The post-mortem body figure is `html/img/pure-body.webp`, a silhouette generated with Gemini and fitted to upstream's hit-spot map (`REP_SPOTS`), drawn with an SVG filter in the same flat fill and outline. The item pictures in `html/img/items/` are generated with Gemini too (see `PURE.md`).
+> **[pure-whip-police](https://github.com/fozenistaken/pure-whip-police) fork by [PureFX](https://purefx.dev).** LeSiiN's release with its screens rebuilt from the police job's UI kit: post-mortem, case locker, crime scene photo, minigames, lab monitor and the scan cards (`html/pure-*.js` and `html/pure-*.css`, fonts in `html/fonts/`, OFL). Without pure-whip-police running, upstream's screens show. Upstream files only gained a few `<link>` and `<script>` lines and the palette in their colour constants, so a new upstream release rebases cleanly (see `PURE.md`). Config: `PoliceJobs = { 'lspd', 'bcso' }`, `ApiResources = { 'pure-whip-police' }`, rank levels fitted to the police ranks, and a `GetTraits` export. The post-mortem body figure (`html/img/pure-body.webp`) and the item pictures (`html/img/items/`) are generated with Gemini.
 >
 > <img src="docs/items.webp" width="820" alt="Evidence bags and forensic tools">
 
 Forensics for WHIP: evidence at crime scenes, real crime scene photos, minigames, labs with a monitor,
 ballistics, gunshot residue, vehicle and weapon traces, an evidence case and case lockers for your MDT.
 
-Version 4.2.6 · [GitHub](https://github.com/LeSiiN/whip_evidence) · Changes: `CHANGELOG.md` · In-game test: `TESTING.md`
+Version 4.2.6.2 (upstream 4.2.6) · [This fork](https://github.com/fozenistaken/whip_evidence) · [Upstream](https://github.com/LeSiiN/whip_evidence) · Changes: `CHANGELOG.md` · In-game test: `TESTING.md`
 
-<img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/Czztofsedr9H.jpg" alt="Camera scan with numbered markers and the crime scene legend" width="880" height="478">
+<img src="docs/scan.webp" width="880" alt="Scan cards over the traces and the camera's crime scene legend">
 
 ## Requires
 
@@ -106,7 +106,7 @@ Pictures: `html/img/items/`. Wear: `/whip` → Economy → Items → "Wear per u
    Vehicles with traces (also the car fragments came from) get a blue marker "V1". The plate goes on the photo only
    from the front or back within 12 m. Releasing a scene asks when a vehicle has no photo of its plate.
 
-   <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/gAeGhnzQELkS.jpg" alt="Crime scene photo with the list of evidence in the picture" width="880" height="478">
+   <img src="docs/photo.webp" width="880" alt="Crime scene photo with the list of evidence in the picture">
 
 3. **Collect.** "Collect" → minigame → the bag goes into your evidence case. Three fails ruin the trace.
    Vehicles: at a front door (also "Take a tyre print"). Weapons: right-click → "Dust for prints".
@@ -115,8 +115,7 @@ Pictures: `html/img/items/`. Wear: `/whip` → Economy → Items → "Wear per u
 
    <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/IcqnrAH21Dcj.jpg" alt="Collect prompt with the trace card" width="616" height="335">
 
-   <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/RNkChaXrRvhq.png" alt="Tweezers: casings" width="285" height="240"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/1O3ENQkCA3rt.png" alt="Swab: blood" width="272" height="240"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/m2buOqwYfmc3.png" alt="Dust: fingerprints" width="295" height="240">
-   <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/WjfnTXHaUbI4.png" alt="Pull: bullets" width="290" height="240"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/oNTR0p5FZIhD.png" alt="Shards: vehicle fragments" width="286" height="240"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/WKAtytPrhOGO.png" alt="Dust: shoe prints" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/hNTXAYOozo0y.png" alt="Dust: tyre tracks" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/7hkSac5ModJa.png" alt="Dust: glove fibers" width="288" height="156">
+   <img src="docs/games.webp" width="880" alt="The minigames: tweezers, swab, dust, pull, shards, GSR swab, plaster casts, glove fibres">
 
    **Bodies.** Someone killed by a player (player or any pedestrian) is a body: a purple marker "L1" in the scan like any trace, card when aimed at, listed on photos. Police: "Examine the body"
    opens the findings: cause of death, wounds per body part, shot distance, bullets in the body, defence wounds, moved after death.
@@ -124,7 +123,7 @@ Pictures: `html/img/items/`. Wear: `/whip` → Economy → Items → "Wear per u
    A dead player can't respawn while being examined (up to 10 min, `BodyHoldMinutes`). "Release the body" ends it.
    Pedestrian bodies don't despawn and are taken away after 30 min.
 
-   <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/rG625dbl4LE4.png" alt="Body card in the scan: time of death, wounds, bullets" width="434" height="236">
+   <img src="docs/postmortem.webp" width="620" alt="Post-mortem findings: hits on the body figure, cause of death, details">
 
 4. **Clean up.** "Clear away" on a marker, or F1 → "Release crime scene". Unphotographed traces need a confirmation.
 5. **Lab.** At the lab device: "Unload evidence case", then "Analyse evidence" (storage locked). Each bag takes time by its age
@@ -134,10 +133,12 @@ Pictures: `html/img/items/`. Wear: `/whip` → Economy → Items → "Wear per u
    The lab also tells how old a trace was when it was collected. The monitor shows progress and results:
    locked until an officer steps up, each bag in turn with what the instrument sees, a sound when done.
 
-   <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/a07o3wVLJOxZ.png" alt="Lab monitor: lockscreen" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/TjF8Cg6SwPCM.png" alt="Lab monitor logging in" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/wet4dmtm7mVk.png" alt="Lab monitor when ready" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/W88C0hLwXNe1.png" alt="Lab monitor analysing bullets" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/hR9SZn7mwCkj.png" alt="Lab monitor when analysing vehicle fragments" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/qfdPG4JuHjek.png" alt="Lab monitor when analysing blood" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/FXXmeyAUrvOw.png" alt="Lab monitor when analysing fingerprints" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/mRl0Q5PdFrui.png" alt="Lab monitor when analysing shoe prints" width="288" height="156"> <img src="https://r2.fivemanage.com/6l5prMFvrgPeOPFz5isJU/Cy6lQFu6hMk6.png" alt="Lab monitor when analysing tyre tracks" width="288" height="156"> 
+   <img src="docs/lab.webp" width="880" alt="Lab monitor: locked, ready, analysing each bag, analysing, results, uploading to a case">
 
 6. **Case.** Upload analysed items to a case in your MDT (or at the lab device: "Upload to a case").
    They move into that case's locker. Open it at any evidence locker: pick the case from the list (latest first, search for others).
+
+   <img src="docs/cases.webp" width="420" alt="Case locker: pick the case">
 
 Every bag and photo has a **chain of custody**: collected, received, in lab, analysed, uploaded, taken out, returned.
 Right-click → "Sign for evidence" when you take it over.

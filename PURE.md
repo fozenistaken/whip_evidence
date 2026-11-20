@@ -35,8 +35,8 @@ How this fork differs from LeSiiN's release and how to keep it mergeable. The fo
 - `index.html`, `lab.html` and `scan.html` end with three added script tags: the kit
   (`https://cfx-nui-pure-whip-police/html/shared/bracket.js`), `pure-kit.js` (sets `window.PW`, adds `body.pw-on`) and
   the screen's `pure-*.js`. Without pure-whip-police running, `window.PW` stays unset and upstream's screens show.
-- `pure-report.js`, `pure-cases.js`, `pure-photo.js` and `pure-lab.js` draw kit versions from the same messages or from
-  what upstream renders, and move upstream's live elements in (`#shot`, `#casesSearch`, `#casesMore`, `#viz`, `.scan`)
+- `pure-report.js`, `pure-cases.js`, `pure-photo.js`, `pure-lab.js` and `pure-games.js` draw kit versions from the same messages or from
+  what upstream renders, and move upstream's live elements in (`#shot`, `#casesSearch`, `#casesMore`, `#viz`, `.scan`, `#mgCanvas`)
   so upstream keeps its state, timers, keys and controller. Buttons click upstream's own buttons.
 - `pure-scan.js` only adds kit classes to what upstream paints into the atlas; no atlas box moves.
 - The kit's CSS is injected after the page's stylesheets, so it wins at equal specificity: overlay rules use two

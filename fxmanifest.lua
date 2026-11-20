@@ -6,7 +6,7 @@ lua54 'yes'
 name 'whip_evidence'
 author 'LeSiiN'
 description 'Forensics for WHIP: evidence, GSR, vehicle traces, weapon prints, labs'
-version '4.2.6.1'
+version '4.2.6.2'
 
 dependencies {
     'whip_core',
