@@ -8,13 +8,13 @@ How this fork differs from LeSiiN's release and how to keep it mergeable. The fo
 1. `git fetch upstream --tags`, read the CHANGELOG between the tags, check that the exports pure-whip-police calls still
    exist (`SetCaseCheck`, `GetUploadable`, `Upload`, `GetCase`, `OpenCaseLocker`, `CloseCase`, `ReopenCase`,
    `GetPhotoImage`, plus this fork's `GetTraits`).
-2. Push `pure` first, so GitHub holds it, then `git rebase upstream/main` with the commit identity set.
+2. Push `pure` first, then `git merge <tag>` with the commit identity set (`pure` is public: merge, never rebase it).
 3. Conflicts come from colour literals next to upstream's changed lines: keep upstream's lines, re-apply the colour.
    4.2.3 to 4.2.5 conflicted only in `html/index.html` (the new hit-spot tooltip beside the fatal-ring colour);
-   4.2.5 to 4.2.6 rebased with no conflicts. `fxmanifest.lua` conflicts on `version` and `whip_updates`: keep this
+   4.2.5 to 4.2.6 rebased with no conflicts; 4.2.6 to 4.2.9 merged with conflicts only on the version lines. `fxmanifest.lua` conflicts on `version` and `whip_updates`: keep this
    fork's `whip_updates 'fozenistaken/whip_evidence'` and set `version` to upstream's plus `.1` (4.2.7 becomes 4.2.7.1).
 4. Re-render the themed screens and run pure-whip-police's harness.
-5. `git push --force-with-lease origin pure`, then publish a GitHub release tagged `v<version>` (servers' update
+5. `git push origin pure`, then publish a GitHub release tagged `v<version>` (servers' update
    checks read releases, not tags). A fork-only change bumps the fourth number (4.2.6.1 to 4.2.6.2).
 
 ## Theming without breaking merges

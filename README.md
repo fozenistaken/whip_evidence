@@ -7,7 +7,7 @@
 Forensics for WHIP: evidence at crime scenes, real crime scene photos, minigames, labs with a monitor,
 ballistics, gunshot residue, vehicle and weapon traces, an evidence case and case lockers for your MDT.
 
-Version 4.2.6.2 (upstream 4.2.6) · [This fork](https://github.com/fozenistaken/whip_evidence) · [Upstream](https://github.com/LeSiiN/whip_evidence) · Changes: `CHANGELOG.md` · In-game test: `TESTING.md`
+Version 4.2.9.1 (upstream 4.2.9) · [This fork](https://github.com/fozenistaken/whip_evidence) · [Upstream](https://github.com/LeSiiN/whip_evidence) · Changes: `CHANGELOG.md` · In-game test: `TESTING.md`
 
 <img src="docs/scan.webp" width="880" alt="Scan cards over the traces and the camera's crime scene legend">
 

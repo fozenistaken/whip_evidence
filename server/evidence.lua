@@ -86,6 +86,7 @@ local function view(ev, t)
         no = ev.no, shot = ev.shot, photo = ev.photo ~= nil, dir = ev.dir,
         age = t - ev.created, left = math.max(0, ev.expires - t),   -- seconds, for the scan overlay
         look = ev.data and ev.data.look,   -- shoe prints and tyre tracks: how they are drawn (surface, length)
+        bloody = (ev.kind == 'bullet' and ev.data and ev.data.blood) and true or nil,   -- went through someone
     }
 end
 
@@ -105,7 +106,7 @@ end
 ---------------------------------------------------------------- Create / remove
 
 function WhipEvidence.Evidence.remove(ids)
-    local gone = {}
+    local gone, gonePending = {}, nil
     for _, id in ipairs(ids) do
         local ev = Evidence[id]
         if ev then
@@ -116,7 +117,18 @@ function WhipEvidence.Evidence.remove(ids)
             gone[#gone + 1] = id
             dirty[id] = nil
             removed[#removed + 1] = id
+            gonePending = gonePending or {}
+            gonePending[id] = true
         end
+    end
+    -- made and removed before the next batch went out (the cap, MaxEvidence): drop it from the batch,
+    -- or clients would get the "remove" first and the "add" after it, and keep a piece the server no longer has
+    if gonePending and #pendingAdds > 0 then
+        local keep = {}
+        for _, v in ipairs(pendingAdds) do
+            if not gonePending[v.id] then keep[#keep + 1] = v end
+        end
+        pendingAdds = keep
     end
     if #gone > 0 then TriggerClientEvent('whip_evidence:client:remove', -1, gone) end
 end
@@ -482,6 +494,12 @@ function WhipEvidence.Evidence.secretFor(kind, d, meta, age)
     if kind == 'casing' or kind == 'bullet' then
         meta.ammo, meta.weapon_serial = '???', '???'
         secret.ammo, secret.weapon_serial = d.caliber or L('unknown'), d.serial or L('unknown')
+        -- a bullet that went through someone (or came out of a body) carries their blood
+        -- seen at once ("Blood found on the bullet"); whose blood type it is, the lab tells
+        if kind == 'bullet' and d.blood then
+            meta.blood_traces = L('blood_traces_bullet')
+            meta.blood_type, secret.blood_type = '???', d.blood
+        end
     elseif kind == 'fingerprint' then
         meta.fingerprint = '???'
         secret.fingerprint = d.fingerprint or L('unknown')

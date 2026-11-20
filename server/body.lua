@@ -210,17 +210,8 @@ function WhipEvidence.Body.register()
         rateLimit = 500, burst = 3, sheet = 'light',
         params = { { 'drawable', 'int', -1, 5000 } },
     }, function(source, player, drawable)
-        if drawable < 0 then
-            drawable = nil
-        else
-            -- the gloves as the server sees the ped: a client must not pick someone else's fibre code
-            local ok, real = pcall(GetPedDrawableVariation, GetPlayerPed(source), 3)
-            if ok and type(real) == 'number' and real >= 0 and real ~= drawable then
-                Wait(1000)   -- the change may not have reached the server yet
-                ok, real = pcall(GetPedDrawableVariation, GetPlayerPed(source), 3)
-                if ok and type(real) == 'number' and real >= 0 and real ~= drawable then return false end
-            end
-        end
+        -- what the client reports (a FiveM server cannot read a ped's clothes)
+        if drawable < 0 then drawable = nil end
         if worn[source] == drawable then return end
         local was = condNow(source)
         if was and worn[source] then

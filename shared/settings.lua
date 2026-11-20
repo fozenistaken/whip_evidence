@@ -162,6 +162,8 @@ Whip.configPage({
             { key = 'BodyMax', type = 'int', min = 1, max = 40, label = 'Most pedestrian bodies at once' },
             { key = 'BodyHoldMinutes', type = 'int', min = 0, max = 60, unit = 'min', label = 'No respawn while examined, up to', help = '0 = players can always respawn.' },
             { key = 'BodyBulletStays', type = 'int', min = 0, max = 100, unit = '%', label = 'Bullet stays in the body' },
+            { key = 'ThroughShotRange', type = 'number', min = 0, max = 100, step = 5, unit = 'm', label = 'A bullet through a body flies on',
+              help = 'It lands in the first wall, ground, object or car behind the body. 0 = off.' },
         } },
         { label = 'Vehicles and weapons', settings = {
             { key = 'VehicleTraceMinutes', type = 'int', min = 1, max = 240, unit = 'min', label = 'Vehicle traces stay for' },

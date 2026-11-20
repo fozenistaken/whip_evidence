@@ -704,4 +704,7 @@ Locales.it = {
     rep_skid                  = 'Segni di frenata',
     rep_skid_none             = 'nessuno: non ha frenato prima dell’impatto',
     rep_skid_yes              = 'ha frenato prima dell’impatto',
+    chip_bloody               = 'Con sangue',
+    f_blood_traces            = 'Tracce di sangue',
+    blood_traces_bullet       = 'Trovato sangue sul proiettile',
 }

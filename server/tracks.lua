@@ -19,9 +19,8 @@ end
 local function shoeData(source, charId)
     local ped = GetPlayerPed(source)
     local model = GetEntityModel(ped)
-    -- the shoes as the server sees the ped (a client could claim someone else's shoes); the report is the fallback
-    local ok, real = pcall(GetPedDrawableVariation, ped, 6)
-    local d = (ok and type(real) == 'number' and real >= 0) and real or (shoes[source] or 0)
+    -- the shoes the client reports (a FiveM server cannot read a ped's clothes)
+    local d = shoes[source] or 0
     local bare = (model == MALE and d == 34) or (model == FEMALE and d == 35)
     -- the foot size belongs to the character
     local n = (GetHashKey('whip_evidence:size:' .. tostring(charId)) & 0xFF) % 6

@@ -704,4 +704,7 @@ Locales.de = {
     rep_skid                  = 'Bremsspur',
     rep_skid_none             = 'keine: vor dem Aufprall nicht gebremst',
     rep_skid_yes              = 'vor dem Aufprall gebremst',
+    chip_bloody               = 'Blut daran',
+    f_blood_traces            = 'Blutspuren',
+    blood_traces_bullet       = 'Blut an der Kugel festgestellt',
 }

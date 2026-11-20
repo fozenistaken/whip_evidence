@@ -102,6 +102,7 @@ function WhipEvidence.ItemDefs.register()
             { key = 'weapon_serial', label = L('f_serial') },
             { key = 'fingerprint',   label = L('f_fingerprint') },
             { key = 'blood_type',    label = L('f_blood_type') },
+            { key = 'blood_traces',  label = L('f_blood_traces') },
             { key = 'paint',         label = L('f_paint') },
             { key = 'quality',       label = L('f_quality') },
             { key = 'cause',         label = L('f_cause') },

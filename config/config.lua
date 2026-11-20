@@ -198,9 +198,21 @@ Config = {
     Bodies           = true,
     BodyKeepMinutes  = 30,    -- a pedestrian's body stays this long (then it is taken away)
     BodyMax          = 12,    -- most pedestrian bodies kept at once (the oldest goes first)
+    -- Only people become bodies. Animals never do (checked in the game); these models never do either.
+    -- The animal models are listed again for the server, which cannot ask the game whether a ped is human.
+    BodyIgnoreModels = {
+        's_m_m_movalien_01', 'u_m_y_zombie_01', 'ig_orleans', 'cs_orleans', 'u_m_m_jesus_01', 'u_m_y_imporage',
+        'a_c_boar', 'a_c_boar_02', 'a_c_cat_01', 'a_c_chickenhawk', 'a_c_chimp', 'a_c_chimp_02', 'a_c_chop', 'a_c_chop_02',
+        'a_c_cormorant', 'a_c_cow', 'a_c_coyote', 'a_c_coyote_02', 'a_c_crow', 'a_c_deer', 'a_c_deer_02', 'a_c_dolphin',
+        'a_c_fish', 'a_c_hen', 'a_c_humpback', 'a_c_husky', 'a_c_killerwhale', 'a_c_mtlion', 'a_c_mtlion_02', 'a_c_panther',
+        'a_c_pig', 'a_c_pigeon', 'a_c_poodle', 'a_c_pug', 'a_c_pug_02', 'a_c_rabbit_01', 'a_c_rabbit_02', 'a_c_rat',
+        'a_c_retriever', 'a_c_rhesus', 'a_c_rottweiler', 'a_c_seagull', 'a_c_sharkhammer', 'a_c_sharktiger', 'a_c_shepherd',
+        'a_c_stingray', 'a_c_westy',
+    },
     BodyHoldMinutes  = 10,    -- a dead player can't respawn this long once police examine them (0 = never held)
     BodyReportDays   = 30,    -- post-mortem reports are kept this long for GetBodyReport (0 = forever)
     BodyBulletStays  = 70,    -- percent: a bullet stays in the body (the rest went through)
+    ThroughShotRange = 40.0,  -- metres a bullet that went through flies on (into a wall, the ground or a car behind)
 
     -- Traces inside vehicles: prints, blood, casings, bullet holes, GSR
     VehicleTraceMinutes = 30,   -- how long they stay in the car

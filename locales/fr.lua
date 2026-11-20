@@ -704,4 +704,7 @@ Locales.fr = {
     rep_skid                  = 'Traces de freinage',
     rep_skid_none             = 'aucune : pas de freinage avant l’impact',
     rep_skid_yes              = 'a freiné avant l’impact',
+    chip_bloody               = 'Traces de sang',
+    f_blood_traces            = 'Traces de sang',
+    blood_traces_bullet       = 'Du sang a été trouvé sur la balle',
 }

@@ -434,6 +434,7 @@ local function evidenceCard(ev, dist, police)
         end
         if ev.fails and ev.fails > 0 then chips[#chips + 1] = { text = L('chip_failed', ev.fails, Config.MaxFails), color = 'red' } end
         if ev.laser then chips[#chips + 1] = { text = L('chip_laser'), color = 'red' } end
+        if ev.bloody then chips[#chips + 1] = { text = L('chip_bloody'), color = 'red' } end
         chips[#chips + 1] = ev.photo and { text = L('chip_photo'), color = 'green' } or { text = L('chip_no_photo'), color = 'yellow' }
         if ev.dir then chips[#chips + 1] = { text = L('chip_trail', compass(ev.dir)), color = 'red' } end
     end

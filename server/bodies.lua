@@ -39,6 +39,44 @@ local function playerOf(ent)
     return nil
 end
 
+-- A bullet that went through a body lands behind it. The spot comes from the shooter's game; it has to lie
+-- on along the shot (behind the victim, seen from the shooter) and within ThroughShotRange.
+local function throughShot(source, ent, exit, exitNet, blood)
+    local shot = WhipEvidence.Evidence.shotOf(source)
+    if not shot or WhipEvidence.isIgnoredWeapon(shot.item) then return end
+    local shooter = GetPlayerPed(source)
+    local from, vpos, out = GetEntityCoords(shooter), GetEntityCoords(ent), xyz(exit)
+    local d1, d2 = vpos - from, out - vpos
+    local f1, f2 = vector2(d1.x, d1.y), vector2(d2.x, d2.y)
+    local l1, l2 = #f1, #d2
+    if l1 < 0.3 or l2 < 0.3 or l2 > (tonumber(Config.ThroughShotRange) or 40.0) + 3.0 then return end
+    -- the same way the shot went (flat, a shot down at someone lying still counts)
+    if #f2 > 0.3 and (f1.x * f2.x + f1.y * f2.y) / (l1 * #f2) < 0.7 then return end
+    -- it went through them: their blood is on it (the lab gives the blood type)
+    local data = { serial = shot.serial or L('unknown'), caliber = Config.Calibers[shot.item] or L('unknown'), blood = blood }
+    if exitNet > 0 then
+        local car = NetworkGetEntityFromNetworkId(exitNet)
+        if car and car ~= 0 and DoesEntityExist(car) and GetEntityType(car) == 2 and #(GetEntityCoords(car) - out) <= 8.0
+            and roll(Config.DropChance.bullet or 50) then
+            WhipEvidence.Vehicles.addTrace(car, 'bullet', data)
+        end
+        return
+    end
+    if roll(Config.DropChance.bullet or 50) then
+        WhipEvidence.Evidence.create('bullet', { coords = out, heading = GetEntityHeading(shooter), origin = from, data = data })
+    end
+end
+
+-- In a car, or right next to one (thrown out in the crash)
+local function carNear(ent)
+    if GetVehiclePedIsIn(ent, false) ~= 0 then return true end
+    local pos = GetEntityCoords(ent)
+    for _, car in ipairs(GetAllVehicles()) do
+        if #(GetEntityCoords(car) - pos) <= 10.0 then return true end
+    end
+    return false
+end
+
 -- The victim's blood type: a player's own; a pedestrian's is picked once and kept (its body gets the same)
 local function bloodOf(victim, net, p)
     local charId = victim and exports.whip_core:GetCharId(victim) or (clones[net] and clones[net].charId)
@@ -74,13 +112,16 @@ local function runOver(source, ent, victim, net, p, hit, fatal, ground)
 
     local pos = ground and xyz(ground) or vpos
     if #(pos - vpos) > 3.0 then pos = vpos end
+    -- sitting in a car themselves (car against car): no blood on the outside, no run-over pieces
+    -- (the crash leaves pieces of both cars, carCrash in vehicles.lua); speed and braking still count
+    local victimInCar = GetVehiclePedIsIn(ent, false) ~= 0
 
     -- their blood on the outside of the car (police bag it at the door, the lab gives the blood type)
-    if roll(fatal and 100 or (Config.DropChance.blood or 75)) then
+    if not victimInCar and roll(fatal and 100 or (Config.DropChance.blood or 75)) then
         WhipEvidence.Vehicles.addTrace(car, 'outblood', { blood = bloodOf(victim, net, p) }, whoOf(victim, net))
     end
 
-    if roll(Config.DropChance.runover or Config.DropChance.vehicle_fragment) then
+    if not victimInCar and roll(Config.DropChance.runover or Config.DropChance.vehicle_fragment) then
         local c1, c2 = GetVehicleColours(car)
         local ok = WhipEvidence.Evidence.create('vehicle_fragment', {
             coords = pos, anyDistance = true,   -- the victim's blood lands on the same spot
@@ -285,8 +326,15 @@ local function pedDied(net, ent, p, ground)
                               male = p.male, armed = p.armed })
     if not b then return end
     pcall(SetEntityOrphanMode, ent, 2)   -- stays when its owner leaves
-    -- a pool of their blood where they fell
-    if ground and roll(Config.DropChance.blood or 100) then
+    local car = GetVehiclePedIsIn(ent, false)
+    if car ~= 0 then
+        -- died in a car: the car stays with them, and their blood is inside it (bagged at the door)
+        pcall(SetEntityOrphanMode, car, 2)
+        if roll(Config.DropChance.blood or 100) then
+            WhipEvidence.Vehicles.addTrace(car, 'blood', { blood = blood }, 'n:' .. net)
+        end
+    elseif ground and roll(Config.DropChance.blood or 100) then
+        -- a pool of their blood where they fell
         WhipEvidence.Evidence.create('blood', { coords = ground, data = { blood = blood } })
     end
 end
@@ -510,7 +558,7 @@ local function takeBullet(source, player, b, street)
     if not bullet then return false, L('body_no_bullets') end
     local given, why = bag(source, player, b, {
         type = L('type_bullet_body'), street = street, marker = 'L' .. b.no, tested_on = label(b),
-    }, 'bullet', { serial = bullet.serial, caliber = bullet.caliber }, 'Bullet from ' .. label(b))
+    }, 'bullet', { serial = bullet.serial, caliber = bullet.caliber, blood = b.blood }, 'Bullet from ' .. label(b))
     if not given then return false, why end
     b.bullets[#b.bullets] = nil
     WhipEvidence.wear(source, WhipEvidence.Items.kit)
@@ -575,15 +623,27 @@ function WhipEvidence.Bodies.register()
             { 'ground', 'record', POS },
             { 'male', 'bool', true },
             { 'spot', 'enum', SPOTS, 'none' },
+            -- where a bullet that went through lands (the shooter's game traced it), 0/0/0 = nowhere
+            { 'exit', 'record', { { 'x', 'number', -16000, 16000, 0 }, { 'y', 'number', -16000, 16000, 0 }, { 'z', 'number', -1000, 3000, 0 } } },
+            { 'exitNet', 'int', 0, 2147483647, 0 },
         },
         near = { at = function(_, _, net) local e = pedOf(net); return e and GetEntityCoords(e) or nil end,
                  range = function() return (Config.MaxShotDistance or 150.0) + 10.0 end, message = false },
-    }, function(source, player, net, wound, part, fatal, armed, ground, male, spot)
+    }, function(source, player, net, wound, part, fatal, armed, ground, male, spot, exit, exitNet)
         if Config.Bodies == false then return end
         local ent = pedOf(net)
         if not ent then return false end
+        if WhipEvidence.bodyIgnored(GetEntityModel(ent)) then return false end   -- animals and the like
         local victim = playerOf(ent)
         if victim == source then return false end
+        -- a car wound from someone not driving next to the victim: only the game that owns the ped may report
+        -- that (a crash nobody caused), and only for a pedestrian in a car
+        if wound == 'vehicle' then
+            local myPed = GetPlayerPed(source)
+            local myCar = GetVehiclePedIsIn(myPed, false)
+            local driving = myCar ~= 0 and GetPedInVehicleSeat(myCar, -1) == myPed and #(GetEntityCoords(myCar) - GetEntityCoords(ent)) <= 8.0
+            if not driving and (victim or NetworkGetEntityOwner(ent) ~= source or not carNear(ent)) then return false end
+        end
         local key = victim and ('p:' .. victim) or ('n:' .. net)
         for _, b in pairs(Bodies) do
             if b.net == net or (victim and b.source == victim) then return end   -- already a body
@@ -606,6 +666,10 @@ function WhipEvidence.Bodies.register()
                 p.bullets[#p.bullets + 1] = { serial = shot.serial or L('unknown'), caliber = Config.Calibers[shot.item] or L('unknown'), part = part }
                 hit.stays = true
             end
+        end
+        -- went through: the bullet flies on and lands behind the body (a wall, the ground, a car)
+        if wound == 'gunshot' and not hit.stays and (exit.x ~= 0 or exit.y ~= 0) then
+            throughShot(source, ent, exit, exitNet, bloodOf(victim, net, p))
         end
         if victim or not fatal then return end
         -- a pedestrian: wait for the server to see it dead too (a dead ped is at 100 or below)

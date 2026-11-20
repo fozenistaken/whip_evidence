@@ -283,6 +283,39 @@ end
 local crashBy = {}   -- [source] = game time of their last reported crash
 AddEventHandler('playerDropped', function() crashBy[source] = nil end)
 
+-- Speeds the server saw on players' cars in the last seconds. A crash report needs real speed, and at the
+-- report itself both cars have already stopped. (Body health is no proof: it often does not reach the server,
+-- and servers with low vehicle damage barely dent.)
+local speedSeen = {}   -- [vehicle] = { { t, v }, ... } newest last, at most 12
+CreateThread(function()
+    while true do
+        Wait(250)
+        local now = GetGameTimer()
+        for _, s in ipairs(GetPlayers()) do
+            local car = GetVehiclePedIsIn(GetPlayerPed(s), false)
+            if car and car ~= 0 then
+                local list = speedSeen[car] or {}
+                speedSeen[car] = list
+                list[#list + 1] = { t = now, v = #GetEntityVelocity(car) }
+                if #list > 12 then table.remove(list, 1) end
+            end
+        end
+        for car, list in pairs(speedSeen) do
+            if now - list[#list].t > 5000 then speedSeen[car] = nil end
+        end
+    end
+end)
+
+local function recentSpeed(car)
+    local best, now = 0.0, GetGameTimer()
+    for _, e in ipairs(speedSeen[car] or {}) do
+        if now - e.t <= 2500 and e.v > best then best = e.v end
+    end
+    return best
+end
+
+local CRASH_SPEED = 5.0   -- m/s the server saw on one of the cars just before (the client asks for ~6)
+
 function WhipEvidence.Vehicles.register()
     -- The client sat in the car long enough (without gloves)
     -- gloves = true: the gloves stopped the print, they may leave fibres instead
@@ -370,20 +403,26 @@ function WhipEvidence.Vehicles.register()
         params = { { 'net', 'id', 1, 2147483647 }, { 'at', 'record', POS } },
         near = { at = function(_, _, _, at) return at end, range = 15.0, message = false },
     }, function(source, player, net, at)
-        if Config.CarCrash == false then return false end
+        if Config.CarCrash == false then return end
         local ped = GetPlayerPed(source)
         local mine = GetVehiclePedIsIn(ped, false)
-        if not mine or mine == 0 or GetPedInVehicleSeat(mine, -1) ~= ped then return false end
+        if not mine or mine == 0 or GetPedInVehicleSeat(mine, -1) ~= ped then return false, 'not the driver' end
         local other = entityOf(net)
-        if not other or other == mine then return false end
+        if not other or other == mine then return false, 'other car not found' end
         local a, b = GetEntityCoords(mine), GetEntityCoords(other)
         local pos = WhipEvidence.vec(at)
-        if #(a - b) > 12.0 or #(pos - a) > 12.0 then return false end
+        if #(a - b) > 15.0 or #(pos - a) > 15.0 then return false, 'cars too far apart' end
 
-        -- a real crash dents something; and one driver reports one crash at a time
-        if GetVehicleBodyHealth(mine) >= 999.0 and GetVehicleBodyHealth(other) >= 999.0 then return false end
+        -- a real crash: one of the cars was fast just before, or something got dented.
+        -- Not a crash (a parking bump) and the cool-down are no errors: nothing happens, no message.
+        local fast = math.max(recentSpeed(mine), recentSpeed(other), #GetEntityVelocity(mine), #GetEntityVelocity(other))
+        local dented = GetVehicleBodyHealth(mine) < 990.0 or GetVehicleBodyHealth(other) < 990.0
+        if fast < CRASH_SPEED and not dented then
+            WhipEvidence.debug('car crash from %d ignored: %.1f m/s, no dent', source, fast)
+            return
+        end
         local last = crashBy[source]
-        if last and GetGameTimer() - last < 10000 then return false end
+        if last and GetGameTimer() - last < 5000 then return end   -- one driver, one crash at a time
         crashBy[source] = GetGameTimer()
 
         local ka, kb = keyOf(mine), keyOf(other)

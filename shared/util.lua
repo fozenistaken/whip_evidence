@@ -145,6 +145,19 @@ function WhipEvidence.bodyReport(b, died)
     return title, sub, rows, table.concat(lines, '\n')
 end
 
+-- Models that never become bodies (Config.BodyIgnoreModels: names or hashes). Animals are left out anyway.
+local ignoredModels
+function WhipEvidence.bodyIgnored(model)
+    if not ignoredModels then
+        ignoredModels = {}
+        for _, m in ipairs(Config.BodyIgnoreModels or {}) do
+            local h = type(m) == 'number' and m or GetHashKey(tostring(m))
+            ignoredModels[h & 0xFFFFFFFF] = true
+        end
+    end
+    return ignoredModels[(tonumber(model) or 0) & 0xFFFFFFFF] == true
+end
+
 function WhipEvidence.vec(t)
     if type(t) == 'vector3' then return t end
     return vector3(t.x + 0.0, t.y + 0.0, t.z + 0.0)

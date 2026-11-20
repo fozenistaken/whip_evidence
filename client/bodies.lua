@@ -65,13 +65,42 @@ end
 
 local function xyz(v) return { x = v.x, y = v.y, z = v.z } end
 
+-- Where a bullet that went through would land: on along its line, past the body, the first wall, ground,
+-- object or car (the body itself is left out). The server decides whether it went through, and checks the spot.
+local NO_EXIT = { x = 0.0, y = 0.0, z = 0.0 }
+local function exitOf(victim)
+    local me = PlayerPedId()
+    local ok, ip = GetPedLastWeaponImpactCoord(me)
+    if not ok then return NO_EXIT, 0 end
+    local wep = GetCurrentPedWeaponEntityIndex(me)
+    local from = (wep and wep ~= 0 and DoesEntityExist(wep)) and GetEntityCoords(wep) or GetPedBoneCoords(me, 57005, 0.0, 0.0, 0.0)
+    local d = ip - from
+    local len = #d
+    if len < 0.3 then return NO_EXIT, 0 end
+    d = d / len
+    local range = tonumber(Config.ThroughShotRange) or 40.0
+    if range <= 0.5 then return NO_EXIT, 0 end   -- turned off
+    local a, b = ip + d * 0.4, ip + d * range
+    -- 1 world, 2 vehicles, 16 objects; the victim is ignored
+    local ray = StartExpensiveSynchronousShapeTestLosProbe(a.x, a.y, a.z, b.x, b.y, b.z, 1 | 2 | 16, victim, 7)
+    local _, hit, pos, _, ent = GetShapeTestResult(ray)
+    if hit ~= 1 then return NO_EXIT, 0 end
+    if ent and ent ~= 0 and DoesEntityExist(ent) and GetEntityType(ent) == 2 then
+        -- a car behind (or the victim's own car, from inside): a bullet hole in it
+        if not NetworkGetEntityIsNetworked(ent) then return NO_EXIT, 0 end
+        return xyz(pos), NetworkGetNetworkIdFromEntity(ent)
+    end
+    return xyz(pos), 0
+end
+
 ---------------------------------------------------------------- Hits this player deals
 
 local lastHit, lastClean = {}, 0
 local localHits = {}   -- [entity] = hits on a pedestrian only this game knows (not networked yet)
 
 local function sendHit(net, h, fatal)
-    TriggerServerEvent('whip_evidence:bodyHit', net, h.wound, h.part, fatal == true, h.armed == true, h.ground, h.male == true, h.spot)
+    TriggerServerEvent('whip_evidence:bodyHit', net, h.wound, h.part, fatal == true, h.armed == true, h.ground, h.male == true, h.spot,
+        h.exit or NO_EXIT, h.exitNet or 0)
 end
 
 -- A pedestrian that only exists in this game (no server copy): make it networked once it dies,
@@ -92,24 +121,55 @@ local function networkAndSend(victim, hits, last)
     end)
 end
 
+-- Only people become bodies: no animals, no models in Config.BodyIgnoreModels (aliens, zombies, ...)
+local function isPerson(ped)
+    return IsPedHuman(ped) and not WhipEvidence.bodyIgnored(GetEntityModel(ped))
+end
+
+-- A ped in a car (or just thrown out of one) that died in a crash nobody else caused
+local CRASH_WOUND = { vehicle = true, fall = true, other = true, explosion = true, burn = true }
+local function inCar(ped)
+    return IsPedInAnyVehicle(ped, false) or GetVehiclePedIsIn(ped, true) ~= 0
+end
+
 AddEventHandler('gameEventTriggered', function(name, args)
     if name ~= 'CEventNetworkEntityDamage' or Config.Bodies == false then return end
     local victim, attacker = args[1], args[2]
     local me = PlayerPedId()
     if victim == me or not victim or not DoesEntityExist(victim) or not IsEntityAPed(victim) then return end
+    if not isPerson(victim) then return end
+    local crash = false
     if attacker ~= me then
         local car = GetVehiclePedIsIn(me, false)
-        if car == 0 or attacker ~= car then return end   -- run over: the car is the attacker
+        if car == 0 or attacker ~= car then
+            -- a crash nobody caused (the attacker is their own car, the world or nobody): the game that owns
+            -- the ped reports its death, once, so a pedestrian who dies in a car crash is a body too
+            if IsPedAPlayer(victim) or not inCar(victim) or NetworkGetEntityOwner(victim) ~= PlayerId() then return end
+            -- a player shot them or drove into them: that player's game reports it (no second report)
+            if attacker and attacker ~= 0 and DoesEntityExist(attacker) then
+                local by = IsEntityAVehicle(attacker) and GetPedInVehicleSeat(attacker, -1) or attacker
+                if by ~= 0 and IsEntityAPed(by) and IsPedAPlayer(by) then return end
+            end
+            crash = true
+        end
     end
     if WhipEvidence.blocked() then return end
     local fatal = args[6] == 1 or IsPedDeadOrDying(victim, true)
+    if crash and not fatal then return end
     local now = GetGameTimer()
     if now - lastClean > 60000 then lastHit, localHits, lastClean = {}, {}, now end
     if not fatal and lastHit[victim] and now - lastHit[victim] < 150 then return end   -- shotgun pellets: one hit
     lastHit[victim] = now
     local part, spot = partOf(victim)
-    local hit = { wound = woundOf(args[7]), part = part, spot = spot, armed = IsPedArmed(victim, 4 | 2) == true,
+    local wound = woundOf(args[7])
+    if crash then
+        if not CRASH_WOUND[wound] then return end
+        if wound == 'other' or wound == 'fall' then wound = 'vehicle' end
+    end
+    local hit = { wound = wound, part = part, spot = spot, armed = IsPedArmed(victim, 4 | 2) == true,
                   male = IsPedMale(victim) == true, ground = xyz(WhipEvidence.ground(GetEntityCoords(victim))) }
+    -- my shot: where it would land if it went through (right now, while the impact is this shot's)
+    if wound == 'gunshot' and attacker == me then hit.exit, hit.exitNet = exitOf(victim) end
 
     if not NetworkGetEntityIsNetworked(victim) then
         if IsPedAPlayer(victim) then return end
@@ -148,6 +208,12 @@ local function keep(net)
                 if ped ~= 0 and DoesEntityExist(ped) then
                     if NetworkHasControlOfEntity(ped) then
                         SetEntityAsMissionEntity(ped, true, true)
+                        -- a body in a car: the car stays too (else it despawns with the body in it)
+                        local car = GetVehiclePedIsIn(ped, false)
+                        if car ~= 0 and not IsPedAPlayer(GetPedInVehicleSeat(car, -1)) then
+                            NetworkRequestControlOfEntity(car)
+                            SetEntityAsMissionEntity(car, true, true)
+                        end
                         return
                     end
                     NetworkRequestControlOfEntity(ped)

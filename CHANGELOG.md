@@ -1,5 +1,34 @@
 # Changelog
 
+## 4.2.9
+
+### Fixes
+
+- **Ghost evidence on clients**: evidence made and removed again within a quarter second (the per-player drop cap, `MaxEvidence` pushing the oldest out) reached clients as "removed" first and "added" after it, so they kept a piece the server no longer had (a marker that could not be collected). The add is now taken out of the batch.
+- **Correction to 4.2.6 "Shoes and gloves from the server"**: a FiveM server cannot read a ped's clothes (`GetPedDrawableVariation` is client-only), so that check never ran; the sole and fibre codes still come from the client, as before 4.2.6. The dead code is removed. Nothing changes in play.
+
+## 4.2.8
+
+### New
+
+- **"Blood found on the bullet"**: a bullet with blood on it (a through-shot, or one taken out of a body) shows a new field "Blood traces: Blood found on the bullet" on the bag right away, also in an MDT (`results.blood_traces` in `GetCase` / `Upload` entries; es_mdt shows it as "Blood traces" without an update). The blood type itself still comes from the lab.
+
+## 4.2.7
+
+### New
+
+- **Deaths in cars are bodies too**: someone shot dead in a car was already a body; now also a pedestrian killed in a crash (car against car, or a crash nobody caused: the game that owns the ped reports it). A body in a car keeps the car from despawning, and its blood goes into the car (bagged at the door) instead of a pool under it. A pedestrian killed in a car by another car gets impact speed and skid marks in the report, but no "blood on the outside" or run-over pieces (the crash leaves pieces of both cars).
+- **Only people become bodies**: animals never do (the game checks `IsPedHuman`, the server checks the model), and neither do the models in `BodyIgnoreModels` (aliens, zombies, Bigfoot, ... ; add your own names or hashes).
+- **Through-shots fly on**: a bullet that goes through a body (the share `BodyBulletStays` does not keep) lands behind it, in the first wall, ground or object within `ThroughShotRange` (40 m) as a bullet with a laser trajectory back to the shooter, or as a bullet hole in a car behind (or in the victim's own car, from inside). Same serial and calibre as the gun, `DropChance.bullet`. The bullet carries the victim's blood: "Blood on it" on the scan card, and the lab gives the blood type next to serial and calibre. A bullet taken out of a body has that body's blood on it too.
+
+### Fixes
+
+- **Car crash "refused by the handler", no fragments**: 4.2.6 asked for a dent on one of the cars, but a car's body health often does not reach the server (and servers with low vehicle damage barely dent). Now a crash counts when the server saw one of the cars going faster than 5 m/s in the 2.5 s before, or a dent. A parking bump is ignored without a message.
+
+### Security
+
+- A "hit by a vehicle" from someone who is not driving next to the victim is refused, unless it comes from the game that owns the ped, for a pedestrian in or next to a car.
+
 ## 4.2.6
 
 ### New
