@@ -27,6 +27,17 @@ How this fork differs from LeSiiN's release and how to keep it mergeable. The fo
 - The minigame canvas maps the mouse through `getBoundingClientRect`, so resizing it with CSS is safe.
 - Manifest `files` adds `'html/*.css'`, `'html/fonts/*.woff2'` and `'html/img/*.webp'`.
 
+## Item pictures
+
+The 23 pictures in `html/img/items/` (13 bag kinds, the plain bag, 9 tools) replace upstream's under the same names,
+so they match pure-whip-police's realistic items. Generated with Gemini on 2026-11-20 as two grids (bags 4x4, tools
+3x3) on magenta, sliced, keyed, 256 px WebP; bags share one scale so the set lines up. Originals:
+`F:/Claude-Backups/whip_evidence/assets/items-*-gemini.jpg`. If upstream changes one of these files, keep ours.
+
+- Clear plastic shows the magenta through it: ask for bags with an opaque white back panel.
+- Key with `min(r, b) - g` and remove only that shared excess; `(r + b) / 2 - g` keys pure red as half magenta and
+  turned the seal strips, blood, paint chip and plier grips dark.
+
 ## Post-mortem body figure
 
 `html/img/pure-body.webp` replaces upstream's drawn shapes with one `<image>` in the same 200x410 viewBox, drawn
