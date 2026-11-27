@@ -707,4 +707,7 @@ Locales.de = {
     chip_bloody               = 'Blut daran',
     f_blood_traces            = 'Blutspuren',
     blood_traces_bullet       = 'Blut an der Kugel festgestellt',
+    f_archive                 = 'Ballistik-Archiv',
+    archive_match             = 'Passt zu einer Waffe, verkauft an %s am %s (%s)',
+    archive_match_filed       = 'Seriennummer abgefeilt, aber der Lauf passt zu einer Waffe, verkauft an %s am %s (%s)',
 }

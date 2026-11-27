@@ -707,4 +707,7 @@ Locales.pl = {
     chip_bloody               = 'Ślady krwi',
     f_blood_traces            = 'Ślady krwi',
     blood_traces_bullet       = 'Na pocisku stwierdzono krew',
+    f_archive                 = 'Archiwum balistyczne',
+    archive_match             = 'Pasuje do broni sprzedanej %s dnia %s (%s)',
+    archive_match_filed       = 'Numer spiłowany, ale lufa pasuje do broni sprzedanej %s dnia %s (%s)',
 }

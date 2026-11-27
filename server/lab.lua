@@ -153,6 +153,22 @@ local function publish(id)
     GlobalState['whip_evidence:lab:' .. id] = st
 end
 
+-- whip_gunstore's ballistic archive: every gun it sold was test-fired. The barrel matches even with the serial
+-- filed off (its original comes from the filed-serial table). A line for the bag, or nil.
+local function archiveOf(serial)
+    if type(serial) ~= 'string' or serial == '' or serial == L('unknown') then return nil end
+    if GetResourceState('whip_gunstore') ~= 'started' then return nil end
+    local s, filed = serial, serial:find('#', 1, true) ~= nil
+    if filed then
+        s = WhipEvidence.Data.filedOriginal(serial)
+        if not s then return nil end
+    end
+    local ok, row = pcall(function() return exports.whip_gunstore:ArchiveLookup(s) end)
+    if not ok or type(row) ~= 'table' then return nil end
+    local when = os.date('%Y-%m-%d', tonumber(row.soldAt) or 0)
+    return L(filed and 'archive_match_filed' or 'archive_match', row.buyer or '?', when, row.store or '?')
+end
+
 local function finish(id)
     local lab = labs[id]
     local job = lab and lab.running
@@ -173,6 +189,8 @@ local function finish(id)
         local addr = addrOf(c.bags[bagId].slot)
         local age = tonumber(secret._age)
         secret._age = nil
+        local kind = c.bags[bagId].meta.kind
+        if kind == 'casing' or kind == 'bullet' then secret.archive = archiveOf(secret.weapon_serial) end
         if Config.LabPartial and age and age >= 1800 and math.random(1, 100) <= (tonumber(Config.LabPartialChance) or 40) then
             partly(secret)
         end

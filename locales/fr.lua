@@ -707,4 +707,7 @@ Locales.fr = {
     chip_bloody               = 'Traces de sang',
     f_blood_traces            = 'Traces de sang',
     blood_traces_bullet       = 'Du sang a été trouvé sur la balle',
+    f_archive                 = 'Archive balistique',
+    archive_match             = 'Correspond à une arme vendue à %s le %s (%s)',
+    archive_match_filed       = 'Numéro limé, mais le canon correspond à une arme vendue à %s le %s (%s)',
 }

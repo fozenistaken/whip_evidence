@@ -707,4 +707,7 @@ Locales.en = {
     chip_bloody               = 'Blood on it',
     f_blood_traces            = 'Blood traces',
     blood_traces_bullet       = 'Blood found on the bullet',
+    f_archive                 = 'Ballistic archive',
+    archive_match             = 'Matches a gun sold to %s on %s (%s)',
+    archive_match_filed       = 'Serial filed off, but the barrel matches a gun sold to %s on %s (%s)',
 }

@@ -11,7 +11,7 @@ How this fork differs from LeSiiN's release and how to keep it mergeable. The fo
 2. Push `pure` first, then `git merge <tag>` with the commit identity set (`pure` is public: merge, never rebase it).
 3. Conflicts come from colour literals next to upstream's changed lines: keep upstream's lines, re-apply the colour.
    4.2.3 to 4.2.5 conflicted only in `html/index.html` (the new hit-spot tooltip beside the fatal-ring colour);
-   4.2.5 to 4.2.6 rebased with no conflicts; 4.2.6 to 4.2.9 merged with conflicts only on the version lines. `fxmanifest.lua` conflicts on `version` and `whip_updates`: keep this
+   4.2.5 to 4.2.6 rebased with no conflicts; 4.2.6 to 4.2.9 and 4.2.9 to 4.3.0 merged with conflicts only on the version lines. `fxmanifest.lua` conflicts on `version` and `whip_updates`: keep this
    fork's `whip_updates 'fozenistaken/whip_evidence'` and set `version` to upstream's plus `.1` (4.2.7 becomes 4.2.7.1).
 4. Re-render the themed screens and run pure-whip-police's harness.
 5. `git push origin pure`, then publish a GitHub release tagged `v<version>` (servers' update

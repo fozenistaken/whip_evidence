@@ -707,4 +707,7 @@ Locales.es = {
     chip_bloody               = 'Con sangre',
     f_blood_traces            = 'Restos de sangre',
     blood_traces_bullet       = 'Se encontró sangre en la bala',
+    f_archive                 = 'Archivo balístico',
+    archive_match             = 'Coincide con un arma vendida a %s el %s (%s)',
+    archive_match_filed       = 'Número limado, pero el cañón coincide con un arma vendida a %s el %s (%s)',
 }

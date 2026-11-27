@@ -75,6 +75,7 @@ local function entryOf(item, m)
         e.results = {
             ammo = m.ammo, weapon_serial = m.weapon_serial, fingerprint = m.fingerprint, blood_type = m.blood_type,
             blood_traces = m.blood_traces,   -- 4.2.8: "Blood found on the bullet" (a through-shot, or out of a body)
+            archive = m.archive,             -- 4.3.0: whip_gunstore's ballistic archive matched the gun
             paint = m.paint, gsr = m.gsr, ballistics = m.ballistics, age = m.age,
             surface = m.surface, shoe_profile = m.shoe_profile, shoe_size = m.shoe_size,
             tyre_profile = m.tyre_profile, tyre_width = m.tyre_width, fiber = m.fiber, cleaner = m.cleaner, quality = m.quality,

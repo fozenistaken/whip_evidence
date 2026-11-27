@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.0
+
+### New
+
+- **Ballistic archive ([whip_gunstore](https://github.com/LeSiiN/whip_gunstore))**: when the lab analyses a casing or a bullet, it asks whip_gunstore's ballistic archive (every gun its stores sold was test-fired). A match adds "Ballistic archive: Matches a gun sold to John Doe on 2026-11-20 (Ammu-Nation Pillbox Hill)". **Also with the serial filed off**: the barrel still matches ("Serial filed off, but the barrel matches a gun sold to ..."), and a partly readable serial does not stop it. The field is `archive` on the bag and in `GetCase` / `Upload` entries (es_mdt shows it as "Archive" without an update). Without whip_gunstore nothing changes.
+
 ## 4.2.9
 
 ### Fixes
